@@ -1,0 +1,286 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: super static cache 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-14 14:08+0800\n"
+"PO-Revision-Date: 2015-08-14 15:16+0800\n"
+"Last-Translator: hitoy <vip@hitoy.org>\n"
+"Language-Team: hitoy <vip@hitoy.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Bookmarks: 0,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: options-advanced.php:3
+msgid "Cache build action"
+msgstr "缓存机制"
+
+#: options-advanced.php:6
+msgid ""
+"<p>When the following actions occur, the cache will be generate/regenerate.</"
+"p>"
+msgstr "<p>当发生下列事件时，相应的缓存会被建立/重建</p>"
+
+#: options-advanced.php:7
+msgid "Publish a Post"
+msgstr "文章发布"
+
+#: options-advanced.php:8
+msgid "Update a Post"
+msgstr "文章更新"
+
+#: options-advanced.php:9
+msgid "Trash a Post"
+msgstr "删除文章"
+
+#: options-advanced.php:10
+msgid "Publish a Page"
+msgstr "单页发布"
+
+#: options-advanced.php:11
+msgid "Approve a Comment"
+msgstr "评论通过"
+
+#: options-advanced.php:12
+msgid "Trash a Comment"
+msgstr "回收评论"
+
+#: options-advanced.php:13
+msgid "Mark a Comment as spam"
+msgstr "标记为垃圾评论"
+
+#: options-advanced.php:14
+msgid "Save »"
+msgstr "保存 »"
+
+#: options-advanced.php:20
+msgid "Purge Cache"
+msgstr "清理缓存"
+
+#: options-advanced.php:23
+msgid ""
+"<p>Clear cached files to force server to fetch a fresh version. You can "
+"purge files selectively or all at once.</p>"
+msgstr "<p>清理在服务器上的缓存，你可以根据需要，对单个或多个缓存进行管理</p>"
+
+#: options-advanced.php:24 options-general.php:33
+msgid "Home"
+msgstr "首页"
+
+#: options-advanced.php:25 options-general.php:34
+msgid "Single"
+msgstr "文章页"
+
+#: options-advanced.php:26 options-general.php:35
+msgid "Page"
+msgstr "单页"
+
+#: options-advanced.php:27 options-general.php:36
+msgid "Category"
+msgstr "分类页"
+
+#: options-advanced.php:28 options-general.php:37
+msgid "Tag"
+msgstr "Tag页"
+
+#: options-advanced.php:29
+msgid "All"
+msgstr "所有"
+
+#: options-advanced.php:30
+msgid "Purge Individual Posts"
+msgstr "清理指定文章"
+
+#: options-advanced.php:30
+msgid "Please Enter the title or id of a post, separate tags with commas"
+msgstr "请输入文章标题或者ID，多个内容用逗号分隔"
+
+#: options-advanced.php:31
+msgid "Purge »"
+msgstr "清理"
+
+#: options-general.php:4
+msgid "Cache Mode"
+msgstr "缓存模式"
+
+#: options-general.php:6
+msgid ""
+"<p>Direct Mode Will Save the Cache file directly in your Webserver, it's the "
+"most resource saving cache mode, but it's difficult to management the cache "
+"files. </p>"
+msgstr ""
+"<p>Direct模式将会把缓存内容直接存放在服务器上，这是最节省资源的模式，但是这种"
+"方式会造成缓存内容管理困难。</p>"
+
+#: options-general.php:7
+msgid ""
+"<p>PHP Mode Save the Cache file in a Special directory, It's more convenient "
+"for you to manage the cache, but this mode still need your databases server, "
+"if you mysql server down, the mode will not work. </p>"
+msgstr ""
+"<p>PHP模式将会把缓存内容存放在一个目录里，这样将会方便管理，但PHP模式会依赖数"
+"据库服务器，如果您的数据库服务器宕机，网站将不可访问。</p>"
+
+#: options-general.php:8
+msgid ""
+"<p>Rewrite Mode is the recommended cache mode, like PHP Mode, all cache "
+"files are saved into a Special Directory, you need to update a rewrite rule "
+"to enable this mode.</p>"
+msgstr ""
+"<p>Rewrite模式会把缓存内容放到一个目录，缓存成功之后，网站不再依赖数据库，但"
+"是您需要在服务器上添加一条伪静态规则。</p>"
+
+#: options-general.php:9
+msgid "close"
+msgstr "关闭"
+
+#: options-general.php:10
+msgid "Direct Mode"
+msgstr "Direct模式"
+
+#: options-general.php:11
+msgid "PHP Mode"
+msgstr "PHP模式"
+
+#: options-general.php:12
+msgid "Rewrite Mode"
+msgstr "Rewrite模式"
+
+#: options-general.php:15
+msgid "Please Add This Rewrite Rules to your webserver:"
+msgstr "请把下列伪静态规则添加到你的服务器:"
+
+#: options-general.php:22
+msgid "Enable Strict Cache Mode"
+msgstr "严格缓存模式"
+
+#: options-general.php:24
+msgid ""
+"<p>Only for Direct Mode, if your enable this function, url like <em>http://"
+"www.example.com/123</em> will be cached, it may be cause some error.</p>"
+msgstr ""
+"<p>仅针对Direct模式，如果你开启这项功能，像<em>http://www.example.com/123</"
+"em>这种的url将会被缓存，但可能会导致一些错误。</p>"
+
+#: options-general.php:25
+msgid "on"
+msgstr "开启"
+
+#: options-general.php:26
+msgid "off"
+msgstr "关闭"
+
+#: options-general.php:30
+msgid "No Cache Page"
+msgstr "不缓存页面"
+
+#: options-general.php:32
+msgid "<p>The following page which is selected will not be cached</p>"
+msgstr "下列被选中的页面类型将不会被缓存"
+
+#: options-general.php:38
+msgid "Archives"
+msgstr "归档页"
+
+#: options-general.php:41
+msgid "Update »"
+msgstr "升级 »"
+
+#: options.php:56
+msgid "Your Webserver is "
+msgstr "您的web服务器是"
+
+#: options.php:56
+msgid "We Can not generation a Rewrite Rules for you!"
+msgstr "不能自动生成伪静态规则"
+
+#: options.php:75 super-static-cache.php:176
+msgid "Cache feature is turned off"
+msgstr "缓存功能没有开启"
+
+#: options.php:77 super-static-cache.php:178
+msgid "You Must update Permalink to enable Super Static Cache"
+msgstr "必须设置合适的固定链接来启用Super Static Cache"
+
+#: options.php:79 super-static-cache.php:180
+msgid "Rewrite Rules Not Update!"
+msgstr "没有更新伪静态规则"
+
+#: options.php:81 super-static-cache.php:182
+msgid "Strict Cache Mode not Support current Permalink!"
+msgstr "严格缓存模式不支持当前固定连接"
+
+#: options.php:83 super-static-cache.php:184
+msgid ""
+"Cache is enabled, But Some Pages May return 403 status or a index page cause "
+"your Permalink Settings"
+msgstr ""
+"缓存功能开启，但是由于您的固定链接的设置，可能会出现某些页面返回403的错误"
+
+#: options.php:85 super-static-cache.php:186
+msgid "OK"
+msgstr "OK"
+
+#: options.php:125
+msgid "Super Static Cache Settings"
+msgstr "Super Static Cache选项"
+
+#: options.php:127
+msgid "General"
+msgstr "基本设置"
+
+#: options.php:128
+msgid "Advanced"
+msgstr "高级设置"
+
+#: options.php:135
+msgid "About"
+msgstr "关于"
+
+#: options.php:138
+msgid ""
+"<p>Super Static Cache is developing and maintaining by <a href=\"https://www."
+"hitoy.org/\">Hito</a>.<br/>It is a advanced fully static cache plugin, with "
+"easy configuration and high efficiency. When a post cached, It will no "
+"longer need the Database. It is a better choice when your posts more than "
+"5000.</p><p>Have any suggestions, please contact vip@hitoy.org.</"
+"p><h4>Rating for This Plugin</h4><p>Please <a href=\"http://wordpress.org/"
+"support/view/plugin-reviews/super-static-cache\" target=\"_blank\">Rating "
+"for this plugin</a> and tell me your needs. This is very useful for my "
+"development.</p><h4>Donation</h4><p>You can Donate to this plugin to let "
+"this plugin further improve.</p><form action=\"https://www.paypal.com/cgi-"
+"bin/webscr\" method=\"post\" target=\"_blank\"><input type=\"hidden\" name="
+"\"cmd\" value=\"_s-xclick\"><input type=\"hidden\" name=\"hosted_button_id\" "
+"value=\"3EL4H6L7LY3YS\"><input type=\"image\" src=\"http://www.hitoy.org/wp-"
+"content/uploads/donate_paypal.gif\" border=\"0\" name=\"submit\" alt=\"PayPal"
+"\"><img border=\"0\" src=\"https://www.paypal.com/en_GB/i/btn/"
+"btn_donateCC_LG.gif\" width=\"1\" height=\"1\"></form>"
+msgstr ""
+"<p>Super Static Cache由<a href=\"https://www.hitoy.org/\" target=\"_blank"
+"\">Hito</a>开发维护。它是一个高级的WP缓存插件，配置简单，运行高效，特别适用于"
+"文章内容较多，数据库压力较大的网站。</p><p>有任何插件方面的问题，或者发现任何"
+"bug，请联系vip@hitoy.org。</p><h3>为插件评分</h3><p>您可以为此插件<a href="
+"\"http://wordpress.org/support/view/plugin-reviews/super-static-cache\" "
+"target=\"_blank\">评分</a>，并告诉我你的需求，这对插件的开发非常有用。</"
+"p><h3>捐款</h3><p>如果此插件对您有帮助，可考虑为它<a href=\"https://www."
+"hitoy.org/super-static-cache-for-wordperss.html#Donations\" target=\"_blank"
+"\">捐款</a>。</p>"
+
+#: super-static-cache-admin.php:19 super-static-cache-admin.php:31
+msgid "Settings"
+msgstr "设置"
+
+#: super-static-cache-admin.php:32
+msgid "Support"
+msgstr "支持"
+
+#: super-static-cache-admin.php:33
+msgid "Donate"
+msgstr "捐赠"
