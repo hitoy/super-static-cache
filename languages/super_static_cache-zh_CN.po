@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: super static cache 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 14:08+0800\n"
-"PO-Revision-Date: 2015-08-14 15:16+0800\n"
+"POT-Creation-Date: 2015-08-28 10:45+0800\n"
+"PO-Revision-Date: 2015-08-28 10:45+0800\n"
 "Last-Translator: hitoy <vip@hitoy.org>\n"
 "Language-Team: hitoy <vip@hitoy.org>\n"
 "Language: zh_CN\n"
@@ -99,8 +99,8 @@ msgid "Purge Individual Posts"
 msgstr "清理指定文章"
 
 #: options-advanced.php:30
-msgid "Please Enter the title or id of a post, separate tags with commas"
-msgstr "请输入文章标题或者ID，多个内容用逗号分隔"
+msgid "Please Enter the title or id of a post, separate with commas"
+msgstr "请输入文章标题或者id，多个内容用逗号分割"
 
 #: options-advanced.php:31
 msgid "Purge »"
@@ -228,23 +228,23 @@ msgstr ""
 msgid "OK"
 msgstr "OK"
 
-#: options.php:125
+#: options.php:124
 msgid "Super Static Cache Settings"
 msgstr "Super Static Cache选项"
 
-#: options.php:127
+#: options.php:126
 msgid "General"
 msgstr "基本设置"
 
-#: options.php:128
+#: options.php:127
 msgid "Advanced"
 msgstr "高级设置"
 
-#: options.php:135
+#: options.php:134
 msgid "About"
 msgstr "关于"
 
-#: options.php:138
+#: options.php:137
 msgid ""
 "<p>Super Static Cache is developing and maintaining by <a href=\"https://www."
 "hitoy.org/\">Hito</a>.<br/>It is a advanced fully static cache plugin, with "
@@ -273,14 +273,17 @@ msgstr ""
 "hitoy.org/super-static-cache-for-wordperss.html#Donations\" target=\"_blank"
 "\">捐款</a>。</p>"
 
-#: super-static-cache-admin.php:19 super-static-cache-admin.php:31
+#: super-static-cache-admin.php:21 super-static-cache-admin.php:33
 msgid "Settings"
 msgstr "设置"
 
-#: super-static-cache-admin.php:32
+#: super-static-cache-admin.php:34
 msgid "Support"
 msgstr "支持"
 
-#: super-static-cache-admin.php:33
+#: super-static-cache-admin.php:35
 msgid "Donate"
 msgstr "捐赠"
+
+#~ msgid "Please Enter the title or id of a post, separate tags with commas"
+#~ msgstr "请输入文章标题或者ID，多个内容用逗号分隔"

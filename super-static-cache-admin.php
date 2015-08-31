@@ -96,21 +96,21 @@ function do_update_actions(){
     if($_POST['super_static_cache_mode']){
         $super_static_cache_mode=trim($_POST['super_static_cache_mode']);
         update_option('super_static_cache_mode',$super_static_cache_mode);
-    }
-    if($_POST['super_static_cache_excet']){
+
         $super_static_cache_excet_arr=$_POST['super_static_cache_excet'];
         $super_static_cache_excet = implode($super_static_cache_excet_arr,',');
         update_option('super_static_cache_excet',$super_static_cache_excet);
-    }
-    if($_POST['super_static_cache_strict']){
+
         $super_static_cache_strict=($_POST['super_static_cache_strict'] == "true")?true:false;
         update_option('super_static_cache_strict',$super_static_cache_strict);
     }
+
     if($_POST['update_cache_action']){
         $update_cache_action_arr=$_POST['update_cache_action'];
         $update_cache_action=implode($update_cache_action_arr,',');
         update_option('update_cache_action',$update_cache_action);
     }
+
     if($_POST['clearcache']){
         $del_type_arr=$_POST['clearcache'];
         if(in_array('home',$del_type_arr)){
