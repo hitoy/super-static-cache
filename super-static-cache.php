@@ -286,8 +286,12 @@ class WPStaticCache{
     //如http://localhost/hello-wrold/
     //为了支持utf-8缓存格式，对url进行urldecode处理
     public function delete_cache($url){
-        if(strlen($url) == 0) return false;
         $url=urldecode($url);
+        //如果传入URL为空，则返回
+        if(strlen($url) == 0) return false;
+        //如果传入的URL不是本域名，则也返回
+        if(stripos($url,$this->siteurl) !== 0) return false;
+
         $uri=substr($url,strlen($this->siteurl));
         if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
             $uri=$this->wppath.'super-static-cache'.$uri;

@@ -27,7 +27,7 @@
                 <div><label><?php _e('Category','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="category"/></div>
                 <div><label><?php _e('Tag','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="tag"/></div>
                 <div><label><?php _e('All','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="all"/></div>
-                <div><label><?php _e('Purge Individual Posts','super_static_cache');?></label><input type="input" name="clearpostpagecache" placeholder="<?php _e('Please Enter the title or id of a post, separate with commas','super_static_cache');?>"/></div><br/>
+                <div><label><?php _e('Purge Individual Posts','super_static_cache');?></label><input type="input" name="clearpostpagecache" title="<?php _e('Please Enter the title or id of a post, separate with commas','super_static_cache');?>"/></div><br/>
                 <input type="submit" class="button-primary" value="<?php _e('Purge »','super_static_cache')?>">
             </div>
         </form>
