@@ -35,7 +35,9 @@
                 <div><label><?php _e('Page','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="page" <?php theselected('super_static_cache_excet','page');?>></div>
                 <div><label><?php _e('Category','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="category" <?php theselected('super_static_cache_excet','category');?>></div>
                 <div><label><?php _e('Tag','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="tag" <?php theselected('super_static_cache_excet','tag');?>></div>
-                <div><label><?php _e('Archives','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="archives" <?php theselected('super_static_cache_excet','archives');?>></div>
+                <div><label><?php _e('Author','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="author" <?php theselected('super_static_cache_excet','author');?>></div>
+                <div><label><?php _e('Date','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="date" <?php theselected('super_static_cache_excet','date');?>></div>
+                <div><label><?php _e('Attachment','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="attachment" <?php theselected('super_static_cache_excet','attachment');?>></div>
             </div>
         </div>
         <input type="submit" class="button-primary" value="<?php _e('Update »','super_static_cache')?>"><br/><br/>

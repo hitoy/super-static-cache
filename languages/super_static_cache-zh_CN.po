@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: super static cache 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-28 10:45+0800\n"
-"PO-Revision-Date: 2015-08-28 10:45+0800\n"
+"POT-Creation-Date: 2015-08-31 16:14+0800\n"
+"PO-Revision-Date: 2015-08-31 16:15+0800\n"
 "Last-Translator: hitoy <vip@hitoy.org>\n"
 "Language-Team: hitoy <vip@hitoy.org>\n"
 "Language: zh_CN\n"
@@ -186,10 +186,18 @@ msgid "<p>The following page which is selected will not be cached</p>"
 msgstr "下列被选中的页面类型将不会被缓存"
 
 #: options-general.php:38
-msgid "Archives"
-msgstr "归档页"
+msgid "Author"
+msgstr "作者页"
 
-#: options-general.php:41
+#: options-general.php:39
+msgid "Date"
+msgstr "时间页"
+
+#: options-general.php:40
+msgid "Attachment"
+msgstr "附件页"
+
+#: options-general.php:43
 msgid "Update »"
 msgstr "升级 »"
 
@@ -284,6 +292,9 @@ msgstr "支持"
 #: super-static-cache-admin.php:35
 msgid "Donate"
 msgstr "捐赠"
+
+#~ msgid "Archives"
+#~ msgstr "归档页"
 
 #~ msgid "Please Enter the title or id of a post, separate tags with commas"
 #~ msgstr "请输入文章标题或者ID，多个内容用逗号分隔"
