@@ -3,7 +3,7 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.2.5
+Version: 3.2.7
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
@@ -80,19 +80,19 @@ function delete_uri($uri){
     if(is_file($uri)){return unlink($uri);}
 
 
-    $fh = opendir($uri);  
-    while(($row = readdir($fh)) !== false){  
-        if($row == '.' || $row == '..' || $row == 'rewrite_ok.txt'){  
-            continue;  
-        }  
-        if(!is_dir($uri.'/'.$row)){  
-            unlink($uri.'/'.$row);  
-        }  
-        delete_uri($uri.'/'.$row);  
-    }  
-    closedir($fh);  
-    //删除文件之后再删除自身  
-    @rmdir($uri); 
+    $fh = opendir($uri);
+    while(($row = readdir($fh)) !== false){
+        if($row == '.' || $row == '..' || $row == 'rewrite_ok.txt'){
+            continue;
+        }
+        if(!is_dir($uri.'/'.$row)){
+            unlink($uri.'/'.$row);
+        }
+        delete_uri($uri.'/'.$row);
+    }
+    closedir($fh);
+    //删除文件之后再删除自身
+    @rmdir($uri);
 }
 
 //访问远程url的函数
@@ -100,13 +100,13 @@ function delete_uri($uri){
 function curl($url){
     if(function_exists("curl_init")){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url); 
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_REFERER,$url);
         curl_setopt($ch, CURLOPT_TIMEOUT,10);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT,'SSCS/3 (Super Static Cache Spider/3; +https://www.hitoy.org/super-static-cache-for-wordperss.html#Spider)');
-        curl_exec($ch); 
-        curl_close($ch); 
+        curl_exec($ch);
+        curl_close($ch);
     }else{
         file_get_contents($url);
     }
@@ -146,7 +146,7 @@ class WPStaticCache{
 
     //是否是严格模式缓存，默认开启
     //开启严格模式将不缓存既没有后缀，又没有以"/"结尾的uri
-    private $isstrict;          
+    private $isstrict;
 
     //siteurl
     public $siteurl;
@@ -268,7 +268,7 @@ class WPStaticCache{
         }else if(strstr($fname,".")){
             //含有后置的请求
             $cachename = $this->wppath.$cachedir.$realname;
-        }else if($this->cachemod != 'direct'){ 
+        }else if($this->cachemod != 'direct'){
             //不管是否严格模式，只要缓存模式不为direct时，都给于缓存
             $cachename = $this->wppath.$cachedir.$realname."/index.html";
         }else if(!$this->isstrict && $this->cachemod == 'direct'){
@@ -380,7 +380,7 @@ class WPStaticCache{
 }
 
 $wpssc = new WPStaticCache();
-add_action("wp_loaded",array($wpssc,"init"),1);
+add_action("template_redirect",array($wpssc,"init"));
 
 //更新缓存的动作
 $update_action_list=explode(",",get_option("update_cache_action"));
@@ -393,7 +393,7 @@ if(in_array('comment_post',$update_action_list)){
             if($comment->comment_approved=='1'){
                 $wpssc->build_post_cache($comment);
             }
-        } 
+        }
     //发布评论的钩子
     add_action('comment_post','comment_post_hook');
 }
