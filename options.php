@@ -1,7 +1,7 @@
 <?php
 global $wpssc;
 
-//ÉèÖÃÑ¡Ôñ¿òµÄ×´Ì¬º¯Êı
+//è®¾ç½®é€‰æ‹©æ¡†çš„çŠ¶æ€å‡½æ•°
 function theselected($key,$value,$checkbox='checked=checked'){
     $arr_val=explode(",",get_option($key));
     if(in_array($value,$arr_val)){
@@ -10,7 +10,7 @@ function theselected($key,$value,$checkbox='checked=checked'){
     }
     return false;
 }
-//ÅĞ¶ÏÎ±¾²Ì¬ÊÇ·ñÅäÖÃºÃ
+//åˆ¤æ–­ä¼ªé™æ€æ˜¯å¦é…ç½®å¥½
 function is_rewrite_ok(){
     global $wpssc;
     if(@fopen($wpssc->siteurl."/rewrite_ok.txt","r")){
@@ -18,7 +18,7 @@ function is_rewrite_ok(){
     }
     return false;
 }
-//»ñÈ¡web·şÎñÆ÷ÀàĞÍ
+//è·å–webæœåŠ¡å™¨ç±»å‹
 function getwebserver(){
     $software=strtolower($_SERVER["SERVER_SOFTWARE"]);
     switch ($software){
@@ -36,12 +36,12 @@ function getwebserver(){
     }
 }
 
-//»ñÈ¡WP°²×°Ä¿Â¼
+//è·å–WPå®‰è£…ç›®å½•
 function getwpinstallpath(){
     global $wpssc;
     return "/".substr($wpssc->wppath,strlen($wpssc->docroot));
 }
-//ÏÔÊ¾Î±¾²Ì¬¹æÔò(µ±ÓÃ»§Ã»ÓĞ¸üĞÂÎ±¾²Ì¬¹æÔòÊ±)
+//æ˜¾ç¤ºä¼ªé™æ€è§„åˆ™(å½“ç”¨æˆ·æ²¡æœ‰æ›´æ–°ä¼ªé™æ€è§„åˆ™æ—¶)
 function showrewriterule(){
     $cachemod=get_option("super_static_cache_mode");
     $is_rewrite_ok=is_rewrite_ok();
@@ -57,18 +57,18 @@ function showrewriterule(){
     }
     return false;
 }
-/*»ñÈ¡¾¯¸æĞÅÏ¢£¬Ö÷ÒªÊÇ¶Ô»º´æÄ£Ê½Ñ¡Ôñ½øĞĞÍ¨Öª
- * Í¬is_permalink_support_cache
+/*è·å–è­¦å‘Šä¿¡æ¯ï¼Œä¸»è¦æ˜¯å¯¹ç¼“å­˜æ¨¡å¼é€‰æ‹©è¿›è¡Œé€šçŸ¥
+ * åŒis_permalink_support_cache
  */
 function notice_msg(){
     $permalink_structure=get_option("permalink_structure");
     $cachemod=get_option("super_static_cache_mode");
     $isstrict=get_option("super_static_cache_strict");
     $siteurl=get_option("siteurl");
-    //¶Ô¹Ì¶¨Á´½Ó½øĞĞ·ÖÎö
-    //·´Ğ±¸Ü³öÏÖµÄµÄ´ÎÊı
+    //å¯¹å›ºå®šé“¾æ¥è¿›è¡Œåˆ†æ
+    //åæ–œæ å‡ºç°çš„çš„æ¬¡æ•°
     $dircount=substr_count($permalink_structure,'/');
-    //È¥µôÄ¿Â¼Ö®ºóµÄÎÄ¼şÃû
+    //å»æ‰ç›®å½•ä¹‹åçš„æ–‡ä»¶å
     $fname=substr($permalink_structure,strripos($permalink_structure,"/")+1);
 
     if($cachemod == 'close'){

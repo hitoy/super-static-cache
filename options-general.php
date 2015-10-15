@@ -40,6 +40,6 @@
                 <div><label><?php _e('Attachment','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="attachment" <?php theselected('super_static_cache_excet','attachment');?>></div>
             </div>
         </div>
-        <input type="submit" class="button-primary" value="<?php _e('Save »','super_static_cache')?>"><br/><br/>
+        <input type="submit" class="button-primary" value="<?php _e('Save 禄','super_static_cache')?>"><br/><br/>
     <form>
 </div>
