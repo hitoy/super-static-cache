@@ -11,7 +11,7 @@
                 <div><label><?php _e('Approve a Comment','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_post,comment_unapproved_to_approved" <?php theselected('update_cache_action','comment_unapproved_to_approved');?>></div>
                 <div><label><?php _e('Trash a Comment','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_approved_to_trash" <?php theselected('update_cache_action','comment_approved_to_trash');?>></div>
                 <div><label><?php _e('Mark a Comment as spam','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_approved_to_spam" <?php theselected('update_cache_action','comment_approved_to_spam');?>></div><br/>
-                <input type="submit" class="button-primary" value="<?php _e('Save »','super_static_cache')?>">
+                <input type="submit" class="button-primary" value="<?php _e('Save','super_static_cache')?>">
             </div>
         </form>
     </div>
@@ -27,8 +27,8 @@
                 <div><label><?php _e('Category','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="category"/></div>
                 <div><label><?php _e('Tag','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="tag"/></div>
                 <div><label><?php _e('All','super_static_cache');?></label><input type="checkbox" name="clearcache[]" value="all"/></div>
-                <div><label><?php _e('Purge Individual Posts','super_static_cache');?></label><input type="input" name="clearpostpagecache" title="<?php _e('Please Enter the title or id of a post, separate with commas','super_static_cache');?>"/></div><br/>
-                <input type="submit" class="button-primary" value="<?php _e('Purge »','super_static_cache')?>">
+                <div><label><?php _e('Purge Individual Posts','super_static_cache');?></label><input type="input" name="clearpostpagecache" /><span><?php _e('Please Enter the title or id of a post, separate with commas','super_static_cache');?></span></div><br/>
+                <input type="submit" class="button-secondary" value="<?php _e('Purge Caches','super_static_cache')?>">
             </div>
         </form>
     </div>

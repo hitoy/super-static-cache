@@ -3,415 +3,468 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.2.7
+Version: 3.2.8
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
 Domain Path: /languages/
 License: GPL2
-*/
+ */
 /*  Copyright 2015 hitoy  (email : vip@hitoy.org)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
-//è·å–å½“å‰é¡µé¢ç±»å‹
+//»ñÈ¡µ±Ç°Ò³ÃæÀàĞÍ
 function getpagetype(){
-    if(is_trackback()){
-        //æ–‡ç« çš„trackbackä¹Ÿå±äºsingle, æ‰€ä»¥is_trackbackè¦æ”¾åœ¨å‰é¢
-        return 'trackback';
-    }else if(is_attachment()){
-        //æ–‡æ¡£çš„attachmentä¹Ÿå±äºsingle, æ‰€ä»¥is_attachmentè¦æ”¾åœ¨å‰é¢
-        return 'attachment';
-    }else if(is_feed()){
-        return 'feed';
-    }else if(is_admin()){
-        return 'admin';
-    }else if(is_preview()){
-        return 'preview';
-    }else if(is_404()){
-        return '404';
-    }else if(is_search()){
-        return 'search';
-    }else if(is_home()){
-        return 'home';
-    }else if(is_single()){
-        return 'single';
-    }else if(is_page()){
-        return 'page';
-    }else if(is_author()){
-        return 'author';
-    }else if(is_tag()){
-        return 'tag';
-    }else if(is_category()){
-        return 'category';
-    }else if(is_paged()){
-        return 'paged';
-    }else if(is_date()){
-        return 'date';
-    }
-    return 'notfound';
+		if(is_trackback()){
+				//ÎÄÕÂµÄtrackbackÒ²ÊôÓÚsingle, ËùÒÔis_trackbackÒª·ÅÔÚÇ°Ãæ
+				return 'trackback';
+		}else if(is_attachment()){
+				//ÎÄµµµÄattachmentÒ²ÊôÓÚsingle, ËùÒÔis_attachmentÒª·ÅÔÚÇ°Ãæ
+				return 'attachment';
+		}else if(is_feed()){
+				return 'feed';
+		}else if(is_admin()){
+				return 'admin';
+		}else if(is_preview()){
+				return 'preview';
+		}else if(is_404()){
+				return '404';
+		}else if(is_search()){
+				return 'search';
+		}else if(is_home()){
+				return 'home';
+		}else if(is_single()){
+				return 'single';
+		}else if(is_page()){
+				return 'page';
+		}else if(is_author()){
+				return 'author';
+		}else if(is_tag()){
+				return 'tag';
+		}else if(is_category()){
+				return 'category';
+		}else if(is_paged()){
+				return 'paged';
+		}else if(is_date()){
+				return 'date';
+		}
+		return 'notfound';
 }
 
-//é€’å½’åˆ é™¤æ–‡ä»¶
+//µİ¹éÉ¾³ıÎÄ¼ş
+//Î£ÏÕ²Ù×÷£¬Çë×¢Òâ!!!
 function delete_uri($uri){
-		if(!$uri) return false;
+		if(!is_string($uri)) return false;
+		if(empty(trim($uri))) return false;
 
-		//ä¸èƒ½æ¸…é™¤ç½‘ç«™ç›®å½•ä¹‹å¤–çš„æ–‡ä»¶ï¼Œä¸èƒ½æ¸…ç©ºç›®å½•æœ¬èº«
-		$docroot=str_replace("//","/",str_replace("\\","/",realpath($_SERVER["DOCUMENT_ROOT"]))."/");
-		if($uri == $docroot || $docroot!=substr($docroot,0,strlen($uri))) return false;
+		//²»ÄÜÇå³ıÍøÕ¾Ä¿Â¼Ö®ÍâµÄÎÄ¼şºÍÍøÕ¾Ä¿Â¼±¾Éí
+		$abspath=str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
+		if(substr($uri,0,strlen($abspath) !== $abspath)) return false;
+		if($uri === $abspath) $uri=$uri."/index.html";
 
-		//æ–‡ä»¶ç›®å½•ä¸å­˜åœ¨
-    if(!file_exists($uri)) return false;
+		//ÎÄ¼şÄ¿Â¼²»´æÔÚ
+		if(!file_exists($uri)) return false;
 
-		//åˆ é™¤æ–‡ä»¶
-    if(is_file($uri)){return unlink($uri);}
+		//É¾³ıÎÄ¼ş
+		if(is_file($uri)){return unlink($uri);}
 
-
-    $fh = opendir($uri);
-    while(($row = readdir($fh)) !== false){
-        if($row == '.' || $row == '..' || $row == 'rewrite_ok.txt'){
-            continue;
-        }
-        if(!is_dir($uri.'/'.$row)){
-            unlink($uri.'/'.$row);
-        }
-        delete_uri($uri.'/'.$row);
-    }
-    closedir($fh);
-    //åˆ é™¤æ–‡ä»¶ä¹‹åå†åˆ é™¤è‡ªèº«
-    @rmdir($uri);
-}
-
-//è®¿é—®è¿œç¨‹urlçš„å‡½æ•°
-//ç”¨æ¥è‡ªåŠ¨å»ºç«‹ç¼“å­˜
-function curl($url){
-    if(function_exists("curl_init")){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_REFERER,$url);
-        curl_setopt($ch, CURLOPT_TIMEOUT,10);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT,'SSCS/3 (Super Static Cache Spider/3; +https://www.hitoy.org/super-static-cache-for-wordperss.html#Spider)');
-        curl_exec($ch);
-        curl_close($ch);
-    }else{
-        file_get_contents($url);
-    }
-}
-
-
-//æ ¹æ®post_idè·å–æ‰€æœ‰ä¸æ–‡ç« ç›¸å…³çš„é¡µé¢
-//ç”¨æ¥åœ¨æ–‡ç« æ›´æ–°æ—¶ï¼Œæ›´æ–°è¿™äº›é¡µé¢
-function get_related_page($post_id){
-    $urls=array();
-    //category
-    $cates = get_the_category($post_id);
-    foreach($cates as $c){
-        array_push($urls,get_category_link($c->term_id));
-    }
-    //tag
-    $tags = get_the_tags($post_id);
-    if($tags){
-        foreach($tags as $t){
-            array_push($urls,get_tag_link($t->term_id));
-        }
-    }
-    return $urls;
-}
-
-
-//ç¼“å­˜ç±»
-class WPStaticCache{
-    public $wppath;            //WPå®‰è£…è·¯å¾„ï¼ŒæœåŠ¡å™¨çš„ç»å¯¹è·¯å¾„
-    public $docroot;           //ç½‘ç«™çš„DOCUMENT_ROOT
-    public $cachemod;          //ç¼“å­˜æ–¹å¼ï¼Œå…³é—­ï¼Œç›´æ¥ç¼“å­˜ï¼ŒæœåŠ¡å™¨é‡å†™ï¼ŒPHPé‡å†™
-    private $wpuri;             //ç”¨æˆ·è®¿é—®çš„é¡µé¢åœ¨æœåŠ¡å™¨ä¸Šå­˜æ”¾çš„åœ°å€,ç›¸å¯¹äºwpå®‰è£…ç›®å½•
-    private $cachetag;
-    private $htmlcontent;
-    //ä¸ç¼“å­˜çš„é¡µé¢ï¼Œé»˜è®¤
-    private $nocachepage = array('admin','404','search','preview','trackback','feed');
-
-    //æ˜¯å¦æ˜¯ä¸¥æ ¼æ¨¡å¼ç¼“å­˜ï¼Œé»˜è®¤å¼€å¯
-    //å¼€å¯ä¸¥æ ¼æ¨¡å¼å°†ä¸ç¼“å­˜æ—¢æ²¡æœ‰åç¼€ï¼Œåˆæ²¡æœ‰ä»¥"/"ç»“å°¾çš„uri
-    private $isstrict;
-
-    //siteurl
-    public $siteurl;
-
-    public function __construct(){
-        $this->docroot = str_replace("//","/",str_replace("\\","/",realpath($_SERVER["DOCUMENT_ROOT"]))."/");
-        $this->wppath = str_replace("\\","/",ABSPATH);
-        $this->cachemod = get_option("super_static_cache_mode");
-        $this->cachetag="\n<!-- This is the static html file created at ".current_time("Y-m-d H:i:s")." by super static cache -->";
-        $this->isstrict = (bool) get_option('super_static_cache_strict');
-
-        //è·å–ç”¨æˆ·æŒ‡å®šçš„ä¸ç¼“å­˜çš„é¡µé¢,å¹¶å’Œç³»ç»Ÿè‡ªå®šä¹‰çš„åˆå¹¶åˆ°ä¸€å—
-        $usetnocache=trim(get_option("super_static_cache_excet"));
-        $usernocachearr=empty($usetnocache)?array():explode(',',$usetnocache);
-        $usernocachearr=array_map('trim',$usernocachearr);
-        $this->nocachepage=array_merge($this->nocachepage,$usernocachearr);
-
-        //è·å–wpuri,ç›¸å¯¹ä¸WPå®‰è£…ç›®å½•
-        $fullrequesturi=$this->docroot.urldecode($_SERVER["REQUEST_URI"]);
-        $this->wpuri=str_replace("//","/",$fullrequesturi);
-        $this->wpuri=substr($fullrequesturi,strlen($this->wppath));
-
-        $this->siteurl=get_option('siteurl');
-    }
-
-
-    /*è·å–å½“å‰é…ç½®æ˜¯å¦æ”¯æŒå½“å‰ç¼“å­˜æ¨¡å¼
-     * ä¸æ”¯æŒç¼“å­˜çš„æƒ…å†µ:
-     * 1,ç¼“å­˜åŠŸèƒ½æ²¡æœ‰å¼€å¯
-     * 2,å›ºå®šé“¾æ¥æ²¡æœ‰è®¾ç½®
-     * 3,ç¼“å­˜æ¨¡å¼ä¸ºé‡å†™ï¼Œä½†æ˜¯é‡å†™è§„åˆ™æ²¡æœ‰æ›´æ–°
-     * 4,å¼€å¯ä¸¥æ ¼ç¼“å­˜æ¨¡å¼ï¼Œä¸”å›ºå®šé“¾æ¥ä¸ä»¥"/"ä¸”æ²¡æœ‰æœ‰åç¼€çš„æ–‡ä»¶åç»“æŸ
-     * 5,è®¾ç½®çš„ä¸ºå¸¸è§„æ¨¡å¼, ä½†æ˜¯å›ºå®šè¿æ¥ä¸­å«æœ‰ç›®å½•è®¾ç½®, å¯èƒ½å¯¼è‡´æŸäº›é¡µé¢å‡ºç°è®¿é—®æ–‡ä»¶(è¿”å›403æˆ–è€…ç›®å½•æ–‡ä»¶åˆ—è¡¨)
-     */
-    public function is_permalink_support_cache(){
-        $permalink_structure=get_option("permalink_structure");
-        //å¯¹å›ºå®šé“¾æ¥è¿›è¡Œåˆ†æ
-        //åæ–œæ å‡ºç°çš„çš„æ¬¡æ•°
-        $dircount=substr_count($permalink_structure,'/');
-        //å»æ‰ç›®å½•ä¹‹åçš„æ–‡ä»¶å
-        $fname=substr($permalink_structure,strripos($permalink_structure,"/")+1);
-
-        if($this->cachemod == 'close'){
-            return array(false,__('Cache feature is turned off'));
-        }else if(empty($permalink_structure)){
-            return array(false,__('You Must update Permalink to enable Super Static Cache','super_static_cache'));
-        }else if($this->cachemod == 'serverrewrite' && !@fopen($this->siteurl."/rewrite_ok.txt","r")){
-            return array(false,__('Rewrite Rules Not Update!','super_static_cache'));
-        }else if($this->isstrict && $fname != "" && !strstr($fname,".")){
-            return array(false,__('Strict Cache Mode not Support current Permalink!','super_static_cache'));
-        }else if($this->cachemod == 'direct' && $dircount > 2){
-            return array(false,__('Cache is enabled, But Some Pages May return 403 status or a index page cause your Permalink Settings','super_static_cache'));
-        }
-        return array(true,__('OK','super_static_cache'));
-    }
-
-    //è·å–å½“å‰é¡µé¢ç±»å‹æ˜¯å¦æ”¯æŒç¼“å­˜
-    private function is_pagetype_support_cache(){
-        if (in_array(getpagetype(),$this->nocachepage)){
-            return false;
-        }
-        //ç™»é™†ç”¨æˆ·ä¸ç¼“å­˜
-        if(is_user_logged_in()){
-            return false;
-        }
-        return true;
-    }
-
-
-    //ä¸»å‡½æ•°ï¼Œå¼€å§‹è¿›è¡Œç¼“å­˜ï¼Œæ³¨å†Œåˆ°template_redirectä¸Š
-    //åªæ”¯æŒGETå’ŒPOSTä¸¤ç§è¯·æ±‚æ–¹å¼
-    public function init(){
-        if($this->cachemod == 'phprewrite' && file_exists($this->get_cache_fname())){
-            //PHPç¼“å­˜æ¨¡å¼æ—¶ï¼Œè¿™é‡Œè¿›è¡ŒåŒ¹é…å¹¶è·å–ç¼“å­˜å†…å®¹
-            echo file_get_contents($this->get_cache_fname());
-            exit();
-        }
-        //åªå¯¹GETè¯·æ±‚ä½œå‡ºç¼“å­˜
-        if($_SERVER['REQUEST_METHOD'] == "GET"){
-            ob_start(array($this,"get_request_html"));
-            register_shutdown_function(array($this,"save_cache_content"));
-        }
-    }
-
-    //è·å–å½“å‰è®¿é—®é¡µé¢çš„HTMLå†…å®¹
-    public function get_request_html($html){
-        $this->htmlcontent=trim($html).$this->cachetag;
-        return trim($html);
-    }
-
-    //è·å–è¦ç¼“å­˜åˆ°ç¡¬ç›˜ä¸Šçš„ç¼“å­˜æ–‡ä»¶æ–‡ä»¶å
-    //1, å¦‚æœç¼“å­˜æ¨¡å¼å…³é—­ï¼Œä¹Ÿç›´æ¥è¿”å›ç©º
-    //2, å½“å‰é¡µé¢ç±»å‹å¦‚æœä¸æ”¯æŒç¼“å­˜ï¼Œé‚£ä¹ˆç›´æ¥è¿”å›ç©º
-    //3, å½“uriå«æœ‰.æˆ–è€…ä»¥/ç»“å°¾æ—¶ï¼Œéƒ½å¯ç¼“å­˜ (http://www.example.com/a.htmlæˆ–http://www.example.com/a/,æ’é™¤çš„æƒ…å†µhttp://www.example.com/a)
-    //4, ç¼“å­˜æ¨¡å¼ä¸ºphprewriteæˆ–è€…serverrewriteæ—¶ï¼Œç¼“å­˜3ä»¥å¤–çš„æƒ…å†µ
-    //5, éä¸¥æ ¼æ¨¡å¼ï¼Œç¼“å­˜æ¨¡å¼ä¸ºdirectæ—¶ï¼Œç¼“å­˜3ä»¥å¤–çš„æƒ…å†µ
-    //6, å…¶å®ƒå‡ä¸ç»™ä¸ç¼“å­˜
-    public function get_cache_fname(){
-        //1,
-        if($this->cachemod == 'close') return false;
-
-        //2,
-        if(!$this->is_pagetype_support_cache()) return false;
-
-        preg_match("/^([^?]+)?/i",$this->wpuri,$match);
-        $realname=urldecode($match[1]);
-        //å»æ‰ç›®å½•ä¹‹åçš„æ–‡ä»¶å
-        $fname=substr($realname,strripos($realname,"/")+1);
-
-        if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
-            $cachedir='super-static-cache';
-        }else {
-            $cachedir='';
-        }
-
-        if($fname == ""){
-            //ä»¥'/'ç»“å°¾çš„è¯·æ±‚
-            $cachename = $this->wppath.$cachedir.$realname."index.html";
-        }else if(strstr($fname,".")){
-            //å«æœ‰åç½®çš„è¯·æ±‚
-            $cachename = $this->wppath.$cachedir.$realname;
-        }else if($this->cachemod != 'direct'){
-            //ä¸ç®¡æ˜¯å¦ä¸¥æ ¼æ¨¡å¼ï¼Œåªè¦ç¼“å­˜æ¨¡å¼ä¸ä¸ºdirectæ—¶ï¼Œéƒ½ç»™äºç¼“å­˜
-            $cachename = $this->wppath.$cachedir.$realname."/index.html";
-        }else if(!$this->isstrict && $this->cachemod == 'direct'){
-            //éä¸¥æ ¼æ¨¡å¼ï¼Œä½†æ˜¯ç¼“å­˜æ¨¡å¼ä¸ºdirectæ—¶,ç»™äºç¼“å­˜
-            $cachename = $this->wppath.$cachedir.$realname."/index.html";
-        }else {
-            $cachename = false;
-        }
-        return $cachename;
-    }
-
-    //å†™å…¥å¹¶ä¿å­˜ç¼“å­˜ï¼Œæœ€ç»ˆåŠ¨ä½œ
-    //æ»¡è¶³ä¸‰ç§æƒ…å†µ
-    //1, urlèƒ½ç¼“å­˜ filenameå­˜åœ¨
-    //2, ç¬¬ä¸€æ¬¡ç¼“å­˜
-    //3, ç¼“å­˜çš„å†…å®¹ä¸ä¸ºç©º
-    public function save_cache_content(){
-        $filename = $this->get_cache_fname();
-        if($filename && !file_exists($filename) && strlen($this->htmlcontent) > 0){
-
-            if(!file_exists(dirname($filename))){
-                //ä¸Šçº§ç›®å½•ä¸å­˜åœ¨çš„æ—¶å€™ï¼Œåˆ›å»ºé€’å½’ç›®å½•
-                //æ³¨æ„è¿™é‡Œçš„PHPç‰ˆæœ¬å¿…é¡»åœ¨5.0.0ä»¥ä¸Š
-                @mkdir(dirname($filename),0777,true);
-            }
-            file_put_contents($filename,$this->htmlcontent,LOCK_EX);
-        }
-    }
-
-    //åˆ é™¤ç¼“å­˜
-    //ä¼ å…¥çš„å‚æ•°é¡µé¢çš„ç»å¯¹åœ°å€
-    //å¦‚http://localhost/hello-wrold/
-    //ä¸ºäº†æ”¯æŒutf-8ç¼“å­˜æ ¼å¼ï¼Œå¯¹urlè¿›è¡Œurldecodeå¤„ç†
-    public function delete_cache($url){
-        $url=urldecode($url);
-        //å¦‚æœä¼ å…¥URLä¸ºç©ºï¼Œåˆ™è¿”å›
-        if(strlen($url) == 0) return false;
-        //å¦‚æœä¼ å…¥çš„URLä¸æ˜¯æœ¬åŸŸåï¼Œåˆ™ä¹Ÿè¿”å›
-        if(stripos($url,$this->siteurl) !== 0) return false;
-
-        $uri=substr($url,strlen($this->siteurl));
-        if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
-            $uri=$this->wppath.'super-static-cache'.$uri;
-        }else if($this->cachemod == 'direct'){
-            $uri=$this->wppath.$uri;
-        }
-        delete_uri($uri);
-        if(file_exists($uri)){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    //å½“å†…å®¹è¢«ä¿®æ”¹æ—¶å»ºç«‹æ–‡ç« ç¼“å­˜
-    //å‚æ•°ï¼Œæ–‡ç« IDï¼Œæˆ–è€…è¯„è®ºå¯¹è±¡
-    public function build_post_cache($obj){
-        if(is_object($obj) && $obj->comment_post_ID){
-            $id= (int) $obj->comment_post_ID;
-        }else if(is_int($obj)){
-            $id = $obj;
-        }else{
-            return;
-        }
-        //æ›´æ–°é¦–é¡µ
-        $this->delete_cache($this->siteurl.'/index.html');
-        curl($this->siteurl);
-
-        //æ›´æ–°æ–‡ç« é¡µ
-        $url=get_permalink($id);
-        $this->delete_cache($url);
-        curl($url);
-
-        //æ›´æ–°å’Œæ–‡ç« é¡µæœ‰å…³è”çš„å…¶å®ƒé¡µé¢
-        $list=get_related_page($id);
-        foreach($list as $u){
-            $this->delete_cache($u);
-            curl($u);
-        }
-    }
-
-    //å®‰è£…å‡½æ•°
-    public function install(){
-        add_option("super_static_cache_mode","close");
-        add_option("super_static_cache_strict",false);
-        add_option("super_static_cache_excet","author,date,attachment");
-        add_option("update_cache_action","publish_post,post_updated,trashed_post,publish_page");
-
-        //åˆ›å»ºrewriteç¼“å­˜ç›®å½•
-        if(!file_exists($this->wppath.'super-static-cache')){
-            mkdir($this->wppath.'super-static-cache',0777,true);
-        }
-        file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt","This is a test file from rewrite rules,please do not to remove it.\n");
-    }
-    //å¸è½½å‡½æ•°
-    public function unistall(){
-        delete_option("super_static_cache_mode");
-        delete_option("super_static_cache_excet");
-        delete_option("super_static_cache_strict");
-        delete_option("update_cache_action");
-        //åˆ é™¤
-        unlink($this->wppath."super-static-cache/rewrite_ok.txt");
-        delete_uri($this->wppath.'super-static-cache');
-				if($this->cachemod=='direct'){
-        	delete_uri($this->wppath.'index.html');
+		$fh = opendir($uri);
+		while(($row = readdir($fh)) !== false){
+				$nodelete_uri=array(".","..","rewrite_ok.txt","wp-admin","wp-content","wp-includes",".htaccess","index.php","license.txt","readme.html","wp-activate.php","wp-blog-header.php","wp-comments-post.php","wp-config-sample.php","wp-config.php","wp-cron.php","wp-links-opml.php","wp-load.php","wp-login.php","wp-mail.php","wp-settings.php","wp-signup.php","wp-trackback.php","xmlrpc.php");
+				if(in_array($row,$nodelete_uri)) continue;
+				if(!is_dir($uri.'/'.$row)){
+						unlink($uri.'/'.$row);
 				}
-    }
+				delete_uri($uri.'/'.$row);
+		}
+		closedir($fh);
+		//É¾³ıÎÄ¼şÖ®ºóÔÙÉ¾³ı×ÔÉí
+		@rmdir($uri);
+}
+
+//µİ¹é´´½¨Ä¿Â¼
+function mkdirs($path){
+		if(is_dir($path)){
+				return true;
+		}
+		if(!mkdirs(dirname($path))){
+				return false;
+		}
+		if(!mkdir($path)){
+				return false;
+		}
+		return true;
+}
+//¸øÄ¿Â¼¸³ÓèÈ¨ÏŞ
+function chmods($path,$mod=0777,$rec=true){
+		if($rec==false){
+				return chmod($path,$mod);
+		}
+		if(is_dir($path)){
+				chmod($path,$mod);
+				$dir=opendir($path);
+				while(($file = readdir($dir)) !== false){
+						if($file == '.' || $file == '..') continue;
+						$ffile=$path.'/'.$file;
+						if(is_file($ffile))  chmod($ffile,$mod);
+						if(is_dir($ffile)) {
+								chmod($ffile,$mod);
+								if($rec==true) chmods($ffile,$mod,$rec);
+						}
+				}
+				closedir($dir);
+		}
+}
+
+//·ÃÎÊÔ¶³ÌurlµÄº¯Êı
+//ÓÃÀ´×Ô¶¯½¨Á¢»º´æ
+function curl($url){
+		if(function_exists("curl_init")){
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_REFERER,$url);
+				curl_setopt($ch, CURLOPT_TIMEOUT,10);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_USERAGENT,'SSCS/3 (Super Static Cache Spider/3; +https://www.hitoy.org/super-static-cache-for-wordperss.html#Spider)');
+				curl_exec($ch);
+				curl_close($ch);
+		}else{
+				ini_set('allow_url_fopen','on');
+				file_get_contents($url);
+		}
+}
+
+
+//¸ù¾İpost_id»ñÈ¡ËùÓĞÓëÎÄÕÂÏà¹ØµÄÒ³Ãæ
+//ÓÃÀ´ÔÚÎÄÕÂ¸üĞÂÊ±£¬¸üĞÂÕâĞ©Ò³Ãæ
+function get_related_page($post_id){
+		$urls=array();
+		//category
+		$cates = get_the_category($post_id);
+		foreach($cates as $c){
+				array_push($urls,get_category_link($c->term_id));
+		}
+		//tag
+		$tags = get_the_tags($post_id);
+		if($tags){
+				foreach($tags as $t){
+						array_push($urls,get_tag_link($t->term_id));
+				}
+		}
+		return $urls;
+}
+
+
+//»º´æÀà
+class WPStaticCache{
+		public $wppath;
+		public $docroot;
+		public $cachemod;
+		private $wpinspath;
+		private $wpuri;
+		private $cachetag;
+		private $htmlcontent;
+		//²»»º´æµÄÒ³Ãæ£¬Ä¬ÈÏ
+		private $nocachepage = array('admin','404','search','preview','trackback','feed');
+
+		//ÊÇ·ñÊÇÑÏ¸ñÄ£Ê½»º´æ£¬Ä¬ÈÏ¿ªÆô
+		//¿ªÆôÑÏ¸ñÄ£Ê½½«²»»º´æ¼ÈÃ»ÓĞºó×º£¬ÓÖÃ»ÓĞÒÔ"/"½áÎ²µÄuri
+		private $isstrict;
+
+		//siteurl
+		public $siteurl;
+
+		/*³õÊ¼»¯»ñÈ¡wodpressºÍsuper static µÄÏà¹ØÅäÖÃĞÅÏ¢
+		 *docroot´ú±íÊÇÍøÕ¾µÄdocument_root, ×¢Òâwordpress¿ÉÒÔ°²×°ÔÚ¶ş¼¶Ä¿Â¼£¬ËùÒÔÕâ¸öÅäÖÃÓĞ±ØÒª
+		 *wppath unix¸ñÊ½µÄwordpressÔÚ·şÎñÆ÷ÉÏµÄÊ±¼ä´æ·ÅÂ·¾¶£¬×¢ÒâABSPATHÊÇwordperss³£Á¿£¬×îºóÒÑ¾­Ìí¼Ó"/"
+		 *wpinspath wordpressÏà¶ÔÓÚdocument rootµÄ°²×°Â·¾¶£¬ÊÊÓÃÓÚ·Çdocument rootÏÂ°²×°wordperssµÄÇé¿ö
+		 *wpuri È¥³ı°²×°Ä¿Â¼Ö®ºóµÄÇëÇóµÄREQUEST_URI
+		 */
+		public function __construct(){
+				//ÏµÍ³ĞÅÏ¢
+				$this->docroot = str_replace("//","/",str_replace("\\","/",realpath($_SERVER["DOCUMENT_ROOT"]))."/");
+				$this->wppath = str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
+				$this->wpinspath = substr($this->wppath,strlen($this->docroot))."/";
+				$this->wpuri = substr($_SERVER["REQUEST_URI"],strlen($this->wpinspath)-1);
+
+				//super static cacheÅäÖÃĞÅÏ¢
+				$this->siteurl = get_option('siteurl');
+				$this->cachemod = get_option("super_static_cache_mode");
+				$this->isstrict = (bool) get_option('super_static_cache_strict');
+				$this->cachetag = "\n<!-- This is the static html file created at ".current_time("Y-m-d H:i:s")." by super static cache -->";
+				//»ñÈ¡ÓÃ»§Ö¸¶¨µÄ²»»º´æµÄÒ³Ãæ,²¢ºÍÏµÍ³×Ô¶¨ÒåµÄºÏ²¢µ½Ò»¿é
+				$usetnocache=trim(get_option("super_static_cache_excet"));
+				$usernocachearr = empty($usetnocache)?array():explode(',',$usetnocache);
+				$usernocachearr = array_map('trim',$usernocachearr);
+				$this->nocachepage = array_merge($this->nocachepage,$usernocachearr);
+		}
+
+
+		/*»ñÈ¡µ±Ç°ÅäÖÃÊÇ·ñÖ§³Öµ±Ç°»º´æÄ£Ê½
+		 * ²»Ö§³Ö»º´æµÄÇé¿ö:
+		 * 1,»º´æ¹¦ÄÜÃ»ÓĞ¿ªÆô
+		 * 2,¹Ì¶¨Á´½ÓÃ»ÓĞÉèÖÃ
+		 * 3,»º´æÄ£Ê½ÎªÖØĞ´£¬µ«ÊÇÖØĞ´¹æÔòÃ»ÓĞ¸üĞÂ
+		 * 4,¿ªÆôÑÏ¸ñ»º´æÄ£Ê½£¬ÇÒ¹Ì¶¨Á´½Ó²»ÒÔ"/"ÇÒÃ»ÓĞÓĞºó×ºµÄÎÄ¼şÃû½áÊø
+		 * 5,ÉèÖÃµÄÎª³£¹æÄ£Ê½, µ«ÊÇ¹Ì¶¨Á¬½ÓÖĞº¬ÓĞÄ¿Â¼ÉèÖÃ, ¿ÉÄÜµ¼ÖÂÄ³Ğ©Ò³Ãæ³öÏÖ·ÃÎÊÎÄ¼ş(·µ»Ø403»òÕßÄ¿Â¼ÎÄ¼şÁĞ±í)
+		 */
+		public function is_permalink_support_cache(){
+				$permalink_structure=get_option("permalink_structure");
+				//¶Ô¹Ì¶¨Á´½Ó½øĞĞ·ÖÎö
+				//·´Ğ±¸Ü³öÏÖµÄµÄ´ÎÊı
+				$dircount=substr_count($permalink_structure,'/');
+				//È¥µôÄ¿Â¼Ö®ºóµÄÎÄ¼şÃû
+				$fname=substr($permalink_structure,strripos($permalink_structure,"/")+1);
+
+				if($this->cachemod == 'close'){
+						return array(false,__('Cache feature is turned off'));
+				}else if(empty($permalink_structure)){
+						return array(false,__('You Must update Permalink to enable Super Static Cache','super_static_cache'));
+				}else if($this->cachemod == 'serverrewrite' && !@fopen($this->siteurl."/rewrite_ok.txt","r")){
+						return array(false,__('Rewrite Rules Not Update!','super_static_cache'));
+				}else if($this->isstrict && $fname != "" && !strstr($fname,".")){
+						return array(false,__('Strict Cache Mode not Support current Permalink!','super_static_cache'));
+				}else if($this->cachemod == 'direct' && $dircount > 2){
+						return array(false,__('Cache is enabled, But Some Pages May return 403 status or a index page cause your Permalink Settings','super_static_cache'));
+				}
+				return array(true,__('OK','super_static_cache'));
+		}
+
+		//»ñÈ¡µ±Ç°Ò³ÃæÀàĞÍÊÇ·ñÖ§³Ö»º´æ
+		private function is_pagetype_support_cache(){
+				if (in_array(getpagetype(),$this->nocachepage)){
+						return false;
+				}
+				//µÇÂ½ÓÃ»§²»»º´æ
+				if(is_user_logged_in()){
+						return false;
+				}
+				return true;
+		}
+
+
+		//Ö÷º¯Êı£¬¿ªÊ¼½øĞĞ»º´æ£¬×¢²áµ½template_redirectÉÏ
+		//Ö»Ö§³ÖGETºÍPOSTÁ½ÖÖÇëÇó·½Ê½
+		public function init(){
+				if($this->cachemod == 'phprewrite' && file_exists($this->get_cache_fname())){
+						//PHP»º´æÄ£Ê½Ê±£¬ÕâÀï½øĞĞÆ¥Åä²¢»ñÈ¡»º´æÄÚÈİ
+						echo file_get_contents($this->get_cache_fname());
+						exit();
+				}
+				//Ö»¶ÔGETÇëÇó×÷³ö»º´æ
+				if($_SERVER['REQUEST_METHOD'] == "GET"){
+						ob_start(array($this,"get_request_html"));
+						register_shutdown_function(array($this,"save_cache_content"));
+				}
+		}
+
+		//»ñÈ¡µ±Ç°·ÃÎÊÒ³ÃæµÄHTMLÄÚÈİ
+		public function get_request_html($html){
+				$this->htmlcontent=trim($html).$this->cachetag;
+				return trim($html);
+		}
+
+		//»ñÈ¡Òª»º´æµ½Ó²ÅÌÉÏµÄ»º´æÎÄ¼şÎÄ¼şÃû
+		//1, Èç¹û»º´æÄ£Ê½¹Ø±Õ£¬Ò²Ö±½Ó·µ»Ø¿Õ
+		//2, µ±Ç°Ò³ÃæÀàĞÍÈç¹û²»Ö§³Ö»º´æ£¬ÄÇÃ´Ö±½Ó·µ»Ø¿Õ
+		//3, µ±urlº¬ÓĞ.»òÕßÒÔ/½áÎ²Ê±£¬¶¼¿É»º´æ (http://www.example.com/a.html»òhttp://www.example.com/a/,ÅÅ³ıµÄÇé¿öhttp://www.example.com/a)
+		//4, »º´æÄ£Ê½Îªphprewrite»òÕßserverrewriteÊ±£¬»º´æ3ÒÔÍâµÄÇé¿ö
+		//5, ·ÇÑÏ¸ñÄ£Ê½£¬»º´æÄ£Ê½ÎªdirectÊ±£¬»º´æ3ÒÔÍâµÄÇé¿ö
+		//6, ÆäËü¾ù²»¸øÓë»º´æ
+		public function get_cache_fname(){
+				//1,
+				if($this->cachemod == 'close') return false;
+
+				//2,
+				if(!$this->is_pagetype_support_cache()) return false;
+
+				//¶Ôº¬ÓĞ²éÑ¯µÄÇé¿ö½øĞĞ¹ıÂË
+				preg_match("/^([^?]+)?/i",$this->wpuri,$match);
+				$realname=urldecode($match[1]);
+				//È¥µôÄ¿Â¼Ö®ºóµÄÎÄ¼şÃû
+				$fname=substr($realname,strripos($realname,"/")+1);
+
+				if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
+						$cachedir='super-static-cache';
+				}else {
+						$cachedir='';
+				}
+
+				if($fname == ""){
+						//ÒÔ'/'½áÎ²µÄÇëÇó
+						$cachename = $this->wppath.$cachedir.$realname."index.html";
+				}else if(strstr($fname,".")){
+						//º¬ÓĞºó×ºµÄÇëÇó
+						$cachename = $this->wppath.$cachedir.$realname;
+				}else if($this->cachemod != 'direct'){
+						//²»¹ÜÊÇ·ñÑÏ¸ñÄ£Ê½£¬Ö»Òª»º´æÄ£Ê½²»ÎªdirectÊ±£¬¶¼¸øÓÚ»º´æ
+						$cachename = $this->wppath.$cachedir.$realname."/index.html";
+				}else if(!$this->isstrict && $this->cachemod == 'direct'){
+						//·ÇÑÏ¸ñÄ£Ê½£¬µ«ÊÇ»º´æÄ£Ê½ÎªdirectÊ±,¸øÓÚ»º´æ
+						$cachename = $this->wppath.$cachedir.$realname."/index.html";
+				}else {
+						$cachename = false;
+				}
+				return $cachename;
+		}
+
+		//Ğ´Èë²¢±£´æ»º´æ£¬×îÖÕ¶¯×÷
+		//Âú×ãÈıÖÖÇé¿ö
+		//1, urlÄÜ»º´æ filename´æÔÚ
+		//2, ÎÄ¼şÃû²»´æÔÚ(±£»¤Ô­ÓĞµÄÎÄ¼ş²»±»¸ÄĞ´)
+		//3, »º´æµÄÄÚÈİ²»Îª¿Õ
+		public function save_cache_content(){
+				$filename = $this->get_cache_fname();
+				if($filename && !file_exists($filename) && strlen($this->htmlcontent) > 0){
+						//´´½¨´æ·Å»º´æµÄÄ¿Â¼
+						mkdirs(dirname($filename));
+						//¼ÓËøĞ´Èë»º´æ
+						file_put_contents($filename,$this->htmlcontent,LOCK_EX);
+
+						//¸øÓÚ»º´æµÄ²Ù×÷È¨ÏŞ
+						if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
+								$cachedir='super-static-cache';
+						}else {
+								$cachedir='';
+						}
+						$modir=substr($filename,0,strlen($this->wppath.$cachedir));
+						chmods($modir,0777);
+				}
+		}
+
+		//É¾³ı»º´æ
+		//´«ÈëµÄ²ÎÊıÒ³ÃæµÄ¾ø¶ÔµØÖ·
+		//Èçhttp://localhost/hello-wrold/
+		//ÎªÁËÖ§³Öutf-8»º´æ¸ñÊ½£¬¶Ôurl½øĞĞurldecode´¦Àí
+		public function delete_cache($url){
+				//Èç¹û´«ÈëµÄ²»ÊÇ×Ö·û´®£¬Ôò·µ»Ø
+				if(!is_string($url)) return false;
+				//Èç¹û´«ÈëURLÎª¿Õ£¬Ôò·µ»Ø
+				if(strlen($url) == 0 || empty($url)) return false;
+				//Èç¹û´«ÈëµÄURL²»ÊÇ±¾ÓòÃû£¬ÔòÒ²·µ»Ø
+				if(stripos($url,$this->siteurl) !== 0) return false;
+
+				//¶ÔÊ¹ÓÃÄ¿Â¼°²×°µÄÇé¿ö½øĞĞ×¢²á
+				$url=urldecode($url);
+				$uri=substr($url,strlen($this->siteurl));
+
+				if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
+						$uri=str_replace("//","/",$this->wppath.'super-static-cache'.$uri);
+				}else if($this->cachemod == 'direct'){
+						$uri=str_replace("//","/",$this->wppath.$uri);
+				}
+				delete_uri($uri);
+				if(file_exists($uri)){
+						return false;
+				}else{
+						return true;
+				}
+		}
+
+		//µ±ÄÚÈİ±»ĞŞ¸ÄÊ±½¨Á¢ÎÄÕÂ»º´æ
+		//²ÎÊı£¬ÎÄÕÂID£¬»òÕßÆÀÂÛ¶ÔÏó
+		public function build_post_cache($obj){
+				if(is_object($obj) && $obj->comment_post_ID){
+						$id= (int) $obj->comment_post_ID;
+				}else if(is_int($obj)){
+						$id = $obj;
+				}else{
+						return;
+				}
+				//¸üĞÂÊ×Ò³
+				$this->delete_cache($this->siteurl.'/index.html');
+				curl($this->siteurl);
+
+				//¸üĞÂÎÄÕÂÒ³
+				$url=get_permalink($id);
+				$this->delete_cache($url);
+				curl($url);
+
+				//¸üĞÂºÍÎÄÕÂÒ³ÓĞ¹ØÁªµÄÆäËüÒ³Ãæ
+				$list=get_related_page($id);
+				foreach($list as $u){
+						$this->delete_cache($u);
+						curl($u);
+				}
+		}
+
+		//°²×°º¯Êı
+		public function install(){
+				add_option("super_static_cache_mode","close");
+				add_option("super_static_cache_strict",false);
+				add_option("super_static_cache_excet","author,date,attachment");
+				add_option("update_cache_action","publish_post,post_updated,trashed_post,publish_page");
+
+				//´´½¨rewrite»º´æÄ¿Â¼
+				if(!file_exists($this->wppath.'super-static-cache')){
+						mkdir($this->wppath.'super-static-cache',0777);
+				}
+				file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt","This is a test file from rewrite rules,please do not to remove it.\n");
+				chmods($this->wppath.'super-static-cache',0777);
+		}
+		//Ğ¶ÔØº¯Êı
+		public function unistall(){
+				delete_option("super_static_cache_mode");
+				delete_option("super_static_cache_excet");
+				delete_option("super_static_cache_strict");
+				delete_option("update_cache_action");
+				//É¾³ı
+				delete_uri($this->wppath."super-static-cache/rewrite_ok.txt");
+				delete_uri($this->wppath.'super-static-cache');
+				if($this->cachemod=='direct'){
+						delete_uri($this->wppath.'index.html');
+				}
+		}
 
 }
 
 $wpssc = new WPStaticCache();
 add_action("template_redirect",array($wpssc,"init"));
 
-//æ›´æ–°ç¼“å­˜çš„åŠ¨ä½œ
+//¸üĞÂ»º´æµÄ¶¯×÷
 $update_action_list=explode(",",get_option("update_cache_action"));
 
-//å·²ç»é€šè¿‡å®¡æ ¸çš„ç”¨æˆ·ç›´æ¥å‘å¸ƒè¯„è®ºï¼Œé‡æ–°å»ºç«‹ç¼“å­˜
+//ÒÑ¾­Í¨¹ıÉóºËµÄÓÃ»§Ö±½Ó·¢²¼ÆÀÂÛ£¬ÖØĞÂ½¨Á¢»º´æ
 if(in_array('comment_post',$update_action_list)){
-   function comment_post_hook($id){
-        global $wpssc;
-        $comment=get_comment($id);
-            if($comment->comment_approved=='1'){
-                $wpssc->build_post_cache($comment);
-            }
-        }
-    //å‘å¸ƒè¯„è®ºçš„é’©å­
-    add_action('comment_post','comment_post_hook');
+		function comment_post_hook($id){
+				global $wpssc;
+				$comment=get_comment($id);
+				if($comment->comment_approved=='1'){
+						$wpssc->build_post_cache($comment);
+				}
+		}
+		//·¢²¼ÆÀÂÛµÄ¹³×Ó
+		add_action('comment_post','comment_post_hook');
 }
 
-//åå°ç•Œé¢å±•ç¤º
+//ºóÌ¨½çÃæÕ¹Ê¾
 if(is_admin()){
-    //å®‰è£…å’Œå¸è½½
-    register_activation_hook(__FILE__,array($wpssc,'install'));
-    register_deactivation_hook(__FILE__,array($wpssc,'unistall'));
+		//°²×°ºÍĞ¶ÔØ
+		register_activation_hook(__FILE__,array($wpssc,'install'));
+		register_deactivation_hook(__FILE__,array($wpssc,'unistall'));
 
-    //å½“æ–‡ç« å‘å¸ƒï¼Œæ›´æ–°ï¼Œè¯„è®ºçŠ¶æ€æ›´æ”¹æ—¶ï¼Œæ›´æ–°ç¼“å­˜çš„åŠ¨ä½œ
-    foreach($update_action_list as $action){
-        add_action($action,array($wpssc,'build_post_cache'));
-    }
+		//µ±ÎÄÕÂ·¢²¼£¬¸üĞÂ£¬ÆÀÂÛ×´Ì¬¸ü¸ÄÊ±£¬¸üĞÂ»º´æµÄ¶¯×÷
+		foreach($update_action_list as $action){
+				add_action($action,array($wpssc,'build_post_cache'));
+		}
 
-    //åå°ç®¡ç†ç•Œé¢
-    require_once("super-static-cache-admin.php");
+		//ºóÌ¨¹ÜÀí½çÃæ
+		require_once("super-static-cache-admin.php");
 
-    //åŠ è½½è¯­è¨€
-    load_plugin_textdomain('super_static_cache', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		//¼ÓÔØÓïÑÔ
+		load_plugin_textdomain('super_static_cache', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }

@@ -1,7 +1,7 @@
 <?php
 global $wpssc;
 
-//è®¾ç½®é€‰æ‹©æ¡†çš„çŠ¶æ€å‡½æ•°
+//ÉèÖÃÑ¡Ôñ¿òµÄ×´Ì¬º¯Êı
 function theselected($key,$value,$checkbox='checked=checked'){
     $arr_val=explode(",",get_option($key));
     if(in_array($value,$arr_val)){
@@ -10,7 +10,7 @@ function theselected($key,$value,$checkbox='checked=checked'){
     }
     return false;
 }
-//åˆ¤æ–­ä¼ªé™æ€æ˜¯å¦é…ç½®å¥½
+//ÅĞ¶ÏÎ±¾²Ì¬ÊÇ·ñÅäÖÃºÃ
 function is_rewrite_ok(){
     global $wpssc;
     if(@fopen($wpssc->siteurl."/rewrite_ok.txt","r")){
@@ -18,7 +18,7 @@ function is_rewrite_ok(){
     }
     return false;
 }
-//è·å–webæœåŠ¡å™¨ç±»å‹
+//»ñÈ¡web·şÎñÆ÷ÀàĞÍ
 function getwebserver(){
     $software=strtolower($_SERVER["SERVER_SOFTWARE"]);
     switch ($software){
@@ -36,12 +36,12 @@ function getwebserver(){
     }
 }
 
-//è·å–WPå®‰è£…ç›®å½•
+//»ñÈ¡WP°²×°Ä¿Â¼
 function getwpinstallpath(){
     global $wpssc;
     return "/".substr($wpssc->wppath,strlen($wpssc->docroot));
 }
-//æ˜¾ç¤ºä¼ªé™æ€è§„åˆ™(å½“ç”¨æˆ·æ²¡æœ‰æ›´æ–°ä¼ªé™æ€è§„åˆ™æ—¶)
+//ÏÔÊ¾Î±¾²Ì¬¹æÔò(µ±ÓÃ»§Ã»ÓĞ¸üĞÂÎ±¾²Ì¬¹æÔòÊ±)
 function showrewriterule(){
     $cachemod=get_option("super_static_cache_mode");
     $is_rewrite_ok=is_rewrite_ok();
@@ -57,18 +57,18 @@ function showrewriterule(){
     }
     return false;
 }
-/*è·å–è­¦å‘Šä¿¡æ¯ï¼Œä¸»è¦æ˜¯å¯¹ç¼“å­˜æ¨¡å¼é€‰æ‹©è¿›è¡Œé€šçŸ¥
- * åŒis_permalink_support_cache
+/*»ñÈ¡¾¯¸æĞÅÏ¢£¬Ö÷ÒªÊÇ¶Ô»º´æÄ£Ê½Ñ¡Ôñ½øĞĞÍ¨Öª
+ * Í¬is_permalink_support_cache
  */
 function notice_msg(){
     $permalink_structure=get_option("permalink_structure");
     $cachemod=get_option("super_static_cache_mode");
     $isstrict=get_option("super_static_cache_strict");
     $siteurl=get_option("siteurl");
-    //å¯¹å›ºå®šé“¾æ¥è¿›è¡Œåˆ†æ
-    //åæ–œæ å‡ºç°çš„çš„æ¬¡æ•°
+    //¶Ô¹Ì¶¨Á´½Ó½øĞĞ·ÖÎö
+    //·´Ğ±¸Ü³öÏÖµÄµÄ´ÎÊı
     $dircount=substr_count($permalink_structure,'/');
-    //å»æ‰ç›®å½•ä¹‹åçš„æ–‡ä»¶å
+    //È¥µôÄ¿Â¼Ö®ºóµÄÎÄ¼şÃû
     $fname=substr($permalink_structure,strripos($permalink_structure,"/")+1);
 
     if($cachemod == 'close'){
@@ -90,37 +90,16 @@ function notice_msg(){
 
 <div class="wrap">
 <style>
-.advanced {display:none}
 .ssc_menu {width:98%;font-size:15px;height:40px;line-height:40px;border-bottom:1px solid #ccc;padding-left:2%;margin-bottom:20px}
-.ssc_menu span {display:block;width:120px;float:left;padding:0 10px;border:1px solid #ccc;border-bottom:none;text-align:center;cursor:pointer;margin-left:-1px;margin-bottom:-1px;font-weight:bold}
-.ssc_menu span.selected {background:white;}
+.ssc_menu a {display:block;width:100px;float:left;padding:0 10px;border:1px solid #ccc;border-bottom:none;text-align:center;cursor:pointer;margin-left:-1px;margin-bottom:-1px;font-weight:bold;text-decoration:none}
+.ssc_menu a:hover {background:white;}
+.ssc_menu a.selected {background:white;}
 h3 {margin-left:12px;}
 div label {display:inline-block;margin-left:5px;margin-right:20px}
 div label:first-child {display:inline-block;width:200px}
 .updaterewrite {margin:15px;padding-top:10px;border-top:1px dotted #ccc;display:none}
 .updaterewrite pre {margin:10px;background:rgba(0,128,255,.5)}
 </style>
-<script>
-jQuery(function(){
-        jQuery(".ssc_menu span").click(function(){
-            var index = jQuery(this).index();        
-            jQuery(this).addClass("selected").siblings("span").removeClass("selected");
-            if(index == 0){
-            jQuery(".general").show(0).siblings(".advanced").hide(0);
-            }else{
-            jQuery(".general").hide(0).siblings(".advanced").show(0);
-            }
-            })
-
-        jQuery("input[name='super_static_cache_mode']").change(function(){
-            if(jQuery(this).get(0).value!='direct'){
-            jQuery("input[name='super_static_cache_strict']").attr("disabled","disabled");
-            }else{
-            jQuery("input[name='super_static_cache_strict']").removeAttr("disabled");
-            }
-            })
-        });
-</script>
 <?php
 $notice=notice_msg();
 if($notice[0] === false){
@@ -129,12 +108,15 @@ if($notice[0] === false){
 ?>
     <h2><?php _e('Super Static Cache Settings','super_static_cache');?></h2><br/>
     <div class="ssc_menu">
-    <span class="selected"><?php _e('General','super_static_cache');?></span>
-        <span><?php _e('Advanced','super_static_cache');?></span>
+		<a href="?page=Super-Static-Cache&tab=general" <?php if(empty($_GET['tab']) || $_GET['tab'] === 'general'){echo 'class="selected"';}?> ><?php _e('General','super_static_cache');?></a>
+		<a href="?page=Super-Static-Cache&tab=advanced" <?php if(!empty($_GET['tab']) && $_GET['tab'] === 'advanced'){echo 'class="selected"';}?> ><?php _e('Advanced','super_static_cache');?></a>
     </div>
 <?php
-require_once(dirname(__FILE__)."/options-general.php");
-require_once(dirname(__FILE__)."/options-advanced.php");
+if(empty($_GET['tab']) || $_GET['tab'] === 'general'){
+	require_once(dirname(__FILE__)."/options-general.php");
+}else if($_GET['tab'] == 'advanced'){
+	require_once(dirname(__FILE__)."/options-advanced.php");
+}
 ?>
     <div class="postbox">
         <h3 class="hndle"><?php _e('About','super_static_cache');?></h3>
