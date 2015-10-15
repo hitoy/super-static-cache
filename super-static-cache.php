@@ -73,7 +73,7 @@ function delete_uri($uri){
 
 		//不能清除网站目录之外的文件和网站目录本身
 		$abspath=str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
-		if(substr($uri,0,strlen($abspath) !== $abspath)) return false;
+		if(substr($uri,0,strlen($abspath)) != $abspath) return false;
 		if($uri == $abspath) $uri=$uri."/index.html";
 
 		//文件目录不存在
