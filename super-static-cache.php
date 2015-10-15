@@ -69,7 +69,7 @@ function getpagetype(){
 //危险操作，请注意!!!
 function delete_uri($uri){
 		if(!is_string($uri)) return false;
-		if(empty(trim($uri))) return false;
+		if(empty($uri)) return false;
 
 		//不能清除网站目录之外的文件和网站目录本身
 		$abspath=str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
