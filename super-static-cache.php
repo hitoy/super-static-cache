@@ -74,7 +74,7 @@ function delete_uri($uri){
 		//不能清除网站目录之外的文件和网站目录本身
 		$abspath=str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
 		if(substr($uri,0,strlen($abspath) !== $abspath)) return false;
-		if($uri === $abspath) $uri=$uri."/index.html";
+		if($uri == $abspath) $uri=$uri."/index.html";
 
 		//文件目录不存在
 		if(!file_exists($uri)) return false;
@@ -266,9 +266,9 @@ class WPStaticCache{
 						exit();
 				}
 				//只对GET请求作出缓存
-				if($_SERVER['REQUEST_METHOD'] == "GET"){
-						ob_start(array($this,"get_request_html"));
-						register_shutdown_function(array($this,"save_cache_content"));
+				if($_SERVER['REQUEST_METHOD'] == 'GET' && $this->cachemod != 'close'){
+						ob_start(array($this,'get_request_html'));
+						register_shutdown_function(array($this,'save_cache_content'));
 				}
 		}
 
