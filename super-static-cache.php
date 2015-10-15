@@ -342,7 +342,7 @@ class WPStaticCache{
 								$cachedir='';
 						}
 						$modir=substr($filename,0,strlen($this->wppath.$cachedir));
-						chmods($modir,0777);
+						//chmods($modir,0777);
 				}
 		}
 
