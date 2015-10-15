@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: super static cache 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-15 13:05+0800\n"
-"PO-Revision-Date: 2015-10-15 13:06+0800\n"
+"POT-Creation-Date: 2015-10-15 13:22+0800\n"
+"PO-Revision-Date: 2015-10-15 13:23+0800\n"
 "Last-Translator: hitoy <vip@hitoy.org>\n"
 "Language-Team: hitoy <vip@hitoy.org>\n"
 "Language: zh_CN\n"
@@ -150,8 +150,8 @@ msgid "PHP Mode"
 msgstr "PHP模式"
 
 #: options-general.php:12
-msgid "Rewrite Mode"
-msgstr "Rewrite模式"
+msgid "Rewrite Mode (Recommend)"
+msgstr "Rewrite模式 (推荐)"
 
 #: options-general.php:15
 msgid "Please Add This Rewrite Rules to your webserver:"
@@ -292,6 +292,9 @@ msgstr "支持"
 #: super-static-cache-admin.php:33
 msgid "Donate"
 msgstr "捐赠"
+
+#~ msgid "Rewrite Mode"
+#~ msgstr "Rewrite模式"
 
 #~ msgid "Purge »"
 #~ msgstr "清理"
