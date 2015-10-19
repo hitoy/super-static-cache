@@ -110,20 +110,20 @@ function mkdirs($path){
 		return true;
 }
 //给目录赋予权限
-function chmods($path,$mod=0777,$rec=true){
-		if($rec==false){
-				return chmod($path,$mod);
+function chmods($path,$dirmod=0777,$filemod=0666,$rec=true){
+		if($rec==false || is_file($path)){
+				return @chmod($path,$filemod);
 		}
 		if(is_dir($path)){
-				chmod($path,$mod);
+				@chmod($path,$dirmod);
 				$dir=opendir($path);
 				while(($file = readdir($dir)) !== false){
 						if($file == '.' || $file == '..') continue;
 						$ffile=$path.'/'.$file;
-						if(is_file($ffile))  chmod($ffile,$mod);
+						if(is_file($ffile))  @chmod($ffile,$filemod);
 						if(is_dir($ffile)) {
-								chmod($ffile,$mod);
-								if($rec==true) chmods($ffile,$mod,$rec);
+								@chmod($ffile,$dirmod);
+								if($rec==true) chmods($ffile,$dirmod,$filemod,$rec);
 						}
 				}
 				closedir($dir);
@@ -300,7 +300,7 @@ class WPStaticCache{
 
 				if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
 						$cachedir='super-static-cache';
-				}else {
+				}else if($this->cachemod == 'direct'){
 						$cachedir='';
 				}
 
@@ -322,27 +322,20 @@ class WPStaticCache{
 				return $cachename;
 		}
 
-		//写入并保存缓存，最终动作
+		//写入缓存，并赋予相应的文件权限便于其它工具进行处理
 		//满足三种情况
 		//1, url能缓存 filename存在
-		//2, 文件名不存在(保护原有的文件不被改写)
-		//3, 缓存的内容不为空
+		//2, 缓存的内容不为空
+		//3, 文件名不存在(保护原有的文件不被改写)
 		public function save_cache_content(){
 				$filename = $this->get_cache_fname();
-				if($filename && !file_exists($filename) && strlen($this->htmlcontent) > 0){
+				if($filename && strlen($this->htmlcontent) > 0 && !file_exists($filename)){
 						//创建存放缓存的目录
 						mkdirs(dirname($filename));
 						//加锁写入缓存
 						file_put_contents($filename,$this->htmlcontent,LOCK_EX);
 
-						//给于缓存的操作权限
-						if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
-								$cachedir='super-static-cache';
-						}else {
-								$cachedir='';
-						}
-						$modir=substr($filename,0,strlen($this->wppath.$cachedir));
-						//chmods($modir,0777);
+						//对文件权限进行改写
 				}
 		}
 
@@ -414,7 +407,7 @@ class WPStaticCache{
 						mkdir($this->wppath.'super-static-cache',0777);
 				}
 				file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt","This is a test file from rewrite rules,please do not to remove it.\n");
-				chmods($this->wppath.'super-static-cache',0777);
+				chmods($this->wppath.'super-static-cache',0777,0555,true);
 		}
 		//卸载函数
 		public function unistall(){
@@ -422,11 +415,11 @@ class WPStaticCache{
 				delete_option("super_static_cache_excet");
 				delete_option("super_static_cache_strict");
 				delete_option("update_cache_action");
-				//删除
+				//删除一些必要的缓存
 				delete_uri($this->wppath."super-static-cache/rewrite_ok.txt");
 				delete_uri($this->wppath.'super-static-cache');
-				if($this->cachemod=='direct'){
-						delete_uri($this->wppath.'index.html');
+				if($this->cachemod=="direct" && is_file($this->wppath."index.html")){
+						delete_uri($this->wppath."index.html");
 				}
 		}
 
