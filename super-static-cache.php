@@ -300,7 +300,7 @@ class WPStaticCache{
 				$fname=substr($realname,strripos($realname,"/")+1);
 					
 				if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
-						$cachedir='super-static-cache';
+						$cachedir='super-static-cache/';
 				}else if($this->cachemod == 'direct'){
 						$cachedir='';
 				}
@@ -340,11 +340,11 @@ class WPStaticCache{
 						$realname=!empty($match[1])?urldecode($match[1]):"";
 						$relapath=substr($realname,0,strpos($realname,'/'));
 						if($relapath==""){
-							chmods($filename,0777,0555,false);
+							chmods($filename,0777,0666,false);
 						}else if($relapath != "" && $this->cachemod == "direct"){
-							chmods($this->wppath.$relapath,0777,0555,true);
+							chmods($this->wppath.$relapath,0777,0666,true);
 						}else if($relapath != "" && $this->cachemod == "serverrewrite" || $this->cachemod == "phprewrite"){
-							chmods($this->wppath."super-static-cache".$relapath,0777,0555,true);
+							chmods($this->wppath."super-static-cache/".$relapath,0777,0666,true);
 						}
 				}
 		}
@@ -417,7 +417,7 @@ class WPStaticCache{
 						mkdir($this->wppath.'super-static-cache',0777);
 				}
 				file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt","This is a test file from rewrite rules,please do not to remove it.\n");
-				chmods($this->wppath.'super-static-cache',0777,0555,true);
+				chmods($this->wppath.'super-static-cache',0777,0444,true);
 		}
 		//卸载函数
 		public function unistall(){
