@@ -3,7 +3,7 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.2.8
+Version: 3.2.9
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
@@ -293,17 +293,17 @@ class WPStaticCache{
 				if(!$this->is_pagetype_support_cache()) return false;
 
 				//对含有查询的情况进行过滤
-				preg_match("/^([^?]+)?/i",$this->wpuri,$match);
-				$realname=urldecode($match[1]);
+				preg_match("/^\/([^?]+)?/i",$this->wpuri,$match);
+				$realname=!empty($match[1])?urldecode($match[1]):"";
+
 				//去掉目录之后的文件名
 				$fname=substr($realname,strripos($realname,"/")+1);
-
+					
 				if($this->cachemod == 'serverrewrite' || $this->cachemod == 'phprewrite'){
 						$cachedir='super-static-cache';
 				}else if($this->cachemod == 'direct'){
 						$cachedir='';
 				}
-
 				if($fname == ""){
 						//以'/'结尾的请求
 						$cachename = $this->wppath.$cachedir.$realname."index.html";
@@ -312,10 +312,10 @@ class WPStaticCache{
 						$cachename = $this->wppath.$cachedir.$realname;
 				}else if($this->cachemod != 'direct'){
 						//不管是否严格模式，只要缓存模式不为direct时，都给于缓存
-						$cachename = $this->wppath.$cachedir.$realname."/index.html";
+						$cachename = $this->wppath.$cachedir.$realname."index.html";
 				}else if(!$this->isstrict && $this->cachemod == 'direct'){
 						//非严格模式，但是缓存模式为direct时,给于缓存
-						$cachename = $this->wppath.$cachedir.$realname."/index.html";
+						$cachename = $this->wppath.$cachedir.$realname."index.html";
 				}else {
 						$cachename = false;
 				}
@@ -335,7 +335,17 @@ class WPStaticCache{
 						//加锁写入缓存
 						file_put_contents($filename,$this->htmlcontent,LOCK_EX);
 
-						//对文件权限进行改写
+						//对缓存文件的权限进行更改
+						preg_match("/^\/([^?]+)?/i",$this->wpuri,$match);
+						$realname=!empty($match[1])?urldecode($match[1]):"";
+						$relapath=substr($realname,0,strpos($realname,'/'));
+						if($relapath==""){
+							chmods($filename,0777,0555,false);
+						}else if($relapath != "" && $this->cachemod == "direct"){
+							chmods($this->wppath.$relapath,0777,0555,true);
+						}else if($relapath != "" && $this->cachemod == "serverrewrite" || $this->cachemod == "phprewrite"){
+							chmods($this->wppath."super-static-cache".$relapath,0777,0555,true);
+						}
 				}
 		}
 
