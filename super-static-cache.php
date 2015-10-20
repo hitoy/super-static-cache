@@ -336,7 +336,8 @@ class WPStaticCache{
 						file_put_contents($filename,$this->htmlcontent,LOCK_EX);
 
 						//对缓存文件的权限进行更改
-						preg_match("/^\/([^?]+)?/i",$this->wpuri,$match);
+						$relauri=substr($filename,strlen($this->wppath)-1);
+						preg_match("/^\/([^?]+)?/i",$relauri,$match);
 						$realname=!empty($match[1])?urldecode($match[1]):"";
 						$relapath=substr($realname,0,strpos($realname,'/'));
 						if($relapath==""){
