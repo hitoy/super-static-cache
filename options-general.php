@@ -21,7 +21,7 @@
         <div class="postbox">
             <h3 class="hndle"><?php _e('Enable Strict Cache Mode','super_static_cache');?></h3>
             <div class="inside">
-                <?php _e('<p>Only for Direct Mode, if your enable this function, url like <em>http://www.example.com/123</em> will be cached, it may be cause some error.</p>','super_static_cache')?>
+                <?php _e('<p>Only for Direct Mode, if your close this function, url like <em>http://www.example.com/123</em> will be cached, it may be cause some error.</p><p>If you don\'t know how to configure it, just keep it as it is.</p>','super_static_cache')?>
                 <input type="radio" name="super_static_cache_strict" value="true" <?php theselected('super_static_cache_strict',true);?>><label><?php _e('on','super_static_cache');?></label>
                 <input type="radio" name="super_static_cache_strict" value="false" <?php theselected('super_static_cache_strict',false);?>><label><?php _e('off','super_static_cache');?></label>
             </div>

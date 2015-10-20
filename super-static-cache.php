@@ -409,7 +409,7 @@ class WPStaticCache{
 		//安装函数
 		public function install(){
 				add_option("super_static_cache_mode","close");
-				add_option("super_static_cache_strict",false);
+				add_option("super_static_cache_strict",true);
 				add_option("super_static_cache_excet","author,date,attachment");
 				add_option("update_cache_action","publish_post,post_updated,trashed_post,publish_page");
 
