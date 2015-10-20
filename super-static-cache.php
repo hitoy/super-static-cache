@@ -312,10 +312,10 @@ class WPStaticCache{
 						$cachename = $this->wppath.$cachedir.$realname;
 				}else if($this->cachemod != 'direct'){
 						//不管是否严格模式，只要缓存模式不为direct时，都给于缓存
-						$cachename = $this->wppath.$cachedir.$realname."index.html";
+						$cachename = $this->wppath.$cachedir.$realname."/index.html";
 				}else if(!$this->isstrict && $this->cachemod == 'direct'){
 						//非严格模式，但是缓存模式为direct时,给于缓存
-						$cachename = $this->wppath.$cachedir.$realname."index.html";
+						$cachename = $this->wppath.$cachedir.$realname."/index.html";
 				}else {
 						$cachename = false;
 				}
