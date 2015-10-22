@@ -3,7 +3,7 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.2.9
+Version: 3.3.0
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
@@ -337,8 +337,8 @@ class WPStaticCache{
 
 						//对缓存文件的权限进行更改
 						$relauri=substr($filename,strlen($this->wppath)-1);
-						preg_match("/^\/([^?]+)?/i",$relauri,$match);
-						$realname=!empty($match[1])?urldecode($match[1]):"";
+						preg_match("/^\/(super-static-cache\/)?([^?]+)?/i",$relauri,$match);
+						$realname=!empty($match[2])?urldecode($match[2]):"";
 						$relapath=substr($realname,0,strpos($realname,'/'));
 						if($relapath==""){
 							chmods($filename,0777,0666,false);
