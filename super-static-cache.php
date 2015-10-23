@@ -337,14 +337,14 @@ class WPStaticCache{
 
 						//对缓存文件的权限进行更改
 						$relauri=substr($filename,strlen($this->wppath)-1);
-						preg_match("/^\/(super-static-cache\/)?([^?]+)?/i",$relauri,$match);
-						$realname=!empty($match[2])?urldecode($match[2]):"";
+						preg_match("/^\/(super-static-cache\/)?(.*)$/i",$relauri,$match);
+						$realname=!empty($match[2])?$match[2]:"";
 						$relapath=substr($realname,0,strpos($realname,'/'));
 						if($relapath==""){
 							chmods($filename,0777,0666,false);
-						}else if($relapath != "" && $this->cachemod == "direct"){
+						}else if($this->cachemod == "direct"){
 							chmods($this->wppath.$relapath,0777,0666,true);
-						}else if($relapath != "" && $this->cachemod == "serverrewrite" || $this->cachemod == "phprewrite"){
+						}else if($this->cachemod == "serverrewrite" || $this->cachemod == "phprewrite"){
 							chmods($this->wppath."super-static-cache/".$relapath,0777,0666,true);
 						}
 				}
