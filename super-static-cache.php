@@ -143,41 +143,50 @@ function curl($url){
 				curl_exec($ch);
 				curl_close($ch);
 		}else{
-				ini_set('allow_url_fopen','on');
-				file_get_contents($url);
+				@ini_set('allow_url_fopen','on');
+				@file_get_contents($url);
 		}
 }
 
 
 //根据post_id获取所有与文章相关的页面
 //用来在文章更新时，更新这些页面
-function get_related_page($post_id){
+function get_related_page($post_id,$include=array("home","next","prev","category","tag")){
 		$urls=array();
-
 		//Home Page and Paged
-		$home = get_option('siteurl');
-		array_push($urls,$home."/index.html");
-		array_push($urls,$home."/page");
+		if(in_array("home",$include)){
+			$home = get_option('siteurl');
+			array_push($urls,$home."/index.html");
+			array_push($urls,$home."/page");
+		}
 
 		//next and pre post
-		$prepost = get_previous_post();
-		$netpost = get_next_post();
-		array_push($urls,get_permalink($prepost->ID));
-		array_push($urls,get_permalink($netpost->ID));
+		if(in_array("next",$include)){
+			$netpost = get_next_post();
+			array_push($urls,get_permalink($netpost->ID));
+		}
+		if(in_array("prev",$include)){
+			$prepost = get_previous_post();
+			array_push($urls,get_permalink($prepost->ID));
+		}
 
 		//category
-		$cates = get_the_category($post_id);
-		foreach($cates as $c){
-				array_push($urls,get_category_link($c->term_id));
-		}
-		//tag
-		$tags = get_the_tags($post_id);
-		if($tags){
-				foreach($tags as $t){
-						array_push($urls,get_tag_link($t->term_id));
-				}
+		if(in_array("category",$include)){
+			$cates = get_the_category($post_id);
+			foreach($cates as $c){
+					array_push($urls,get_category_link($c->term_id));
+			}
 		}
 
+		//tag
+		if(in_array("tag",$include)){
+			$tags = get_the_tags($post_id);
+			if($tags){
+					foreach($tags as $t){
+							array_push($urls,get_tag_link($t->term_id));
+				}
+			}
+		}
 		return $urls;
 }
 
