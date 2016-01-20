@@ -140,6 +140,7 @@ function do_update_actions(){
 						}
 				}
 		}
+
 		if(!empty($_POST['clearpostpagecache'])){
 				$ids=explode(",",trim($_POST['clearpostpagecache']));
 				foreach($ids as $id){
