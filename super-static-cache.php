@@ -157,7 +157,7 @@ function get_related_page($post_id,$include=array("home","next","prev","category
 		if(in_array("home",$include)){
 			$home = get_option('siteurl');
 			array_push($urls,$home."/index.html");
-			array_push($urls,$home."/page");
+			array_push($urls,$home."/page/");
 		}
 
 		//next and pre post
