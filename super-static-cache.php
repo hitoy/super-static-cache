@@ -3,14 +3,14 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.3.0
+Version: 3.3.1
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
 Domain Path: /languages/
 License: GPL2
  */
-/*  Copyright 2015 hitoy  (email : vip@hitoy.org)
+/*  Copyright 2016 hitoy  (email : vip@hitoy.org)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -136,8 +136,8 @@ function curl($url){
 		if(function_exists("curl_init")){
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_REFERER,$url);
-				curl_setopt($ch, CURLOPT_TIMEOUT,10);
+				curl_setopt($ch, CURLOPT_REFERER,'https://www.hitoy.org/');
+				curl_setopt($ch, CURLOPT_TIMEOUT,5);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				curl_setopt($ch, CURLOPT_USERAGENT,'SSCS/3 (Super Static Cache Spider/3; +https://www.hitoy.org/super-static-cache-for-wordperss.html#Spider)');
 				curl_exec($ch);
@@ -200,8 +200,10 @@ class WPStaticCache{
 		private $wpuri;
 		private $cachetag;
 		private $htmlcontent;
-		//不缓存的页面，默认
+		//不缓存的页面类型，默认
 		private $nocachepage = array('admin','404','search','preview','trackback','feed');
+        //不缓存的单页面，存放全部网址
+        private $nocachesinglepage = array();
 
 		//是否是严格模式缓存，默认开启
 		//开启严格模式将不缓存既没有后缀，又没有以"/"结尾的uri
@@ -233,6 +235,9 @@ class WPStaticCache{
 				$usernocachearr = empty($usetnocache)?array():explode(',',$usetnocache);
 				$usernocachearr = array_map('trim',$usernocachearr);
 				$this->nocachepage = array_merge($this->nocachepage,$usernocachearr);
+                //获取不缓存的单页
+                $nocachesinglepage = trim(get_option('super_static_cache_nocachesinglepage'));
+                $this->nocachesinglepage = empty($nocachesinglepage)?array():explode(',',$nocachesinglepage)
 		}
 
 
@@ -266,11 +271,16 @@ class WPStaticCache{
 				return array(true,__('OK','super_static_cache'));
 		}
 
-		//获取当前页面类型是否支持缓存
-		private function is_pagetype_support_cache(){
-				if (in_array(getpagetype(),$this->nocachepage)){
-						return false;
+		//获取当前页面是否设置为缓存
+		private function is_page_support_cache(){
+                //当前页面类型不缓存
+				if(in_array(getpagetype(),$this->nocachepage)){
+                    return false;
 				}
+                //用户设置当前页面不缓存
+                if(in_array($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],$this->nocachesinglepage)){
+                    return false;
+                }
 				//登陆用户不缓存
 				if(is_user_logged_in()){
 						return false;
@@ -312,7 +322,7 @@ class WPStaticCache{
 				if($this->cachemod == 'close') return false;
 
 				//2,
-				if(!$this->is_pagetype_support_cache()) return false;
+				if(!$this->is_page_support_cache()) return false;
 
 				//对含有查询的情况进行过滤
 				preg_match("/^\/([^?]+)?/i",$this->wpuri,$match);
@@ -429,6 +439,7 @@ class WPStaticCache{
 				add_option("super_static_cache_mode","close");
 				add_option("super_static_cache_strict",true);
 				add_option("super_static_cache_excet","author,date,attachment");
+				add_option("super_static_cache_nocachesinglepage","");
 				add_option("update_cache_action","publish_post,post_updated,trashed_post,publish_page");
 
 				//创建rewrite缓存目录

@@ -39,6 +39,10 @@
                 <div><label><?php _e('Date','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="date" <?php theselected('super_static_cache_excet','date');?>></div>
                 <div><label><?php _e('Attachment','super_static_cache');?></label><input type="checkbox" name="super_static_cache_excet[]" value="attachment" <?php theselected('super_static_cache_excet','attachment');?>></div>
             </div>
+            <div class="inside">
+                <?php _e('<p>You can specify a page that is not cached, Please fill in the full URL(like http://www.example.com/example/).</p>','super_static_cache');?>
+                <textarea name="super_static_cache_nocachesinglepage"><?php echo str_replace(",","\r\n",get_option('super_static_cache_nocachesinglepage'));?></textarea>
+            </div>
         </div>
         <input type="submit" class="button-primary" value="<?php _e('Save','super_static_cache')?>"><br/><br/>
     <form>

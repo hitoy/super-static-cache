@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: super static cache 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-20 11:34+0800\n"
-"PO-Revision-Date: 2015-10-20 11:36+0800\n"
+"POT-Creation-Date: 2016-04-19 10:17+0800\n"
+"PO-Revision-Date: 2016-04-19 10:17+0800\n"
 "Last-Translator: hitoy <vip@hitoy.org>\n"
 "Language-Team: hitoy <vip@hitoy.org>\n"
 "Language: zh_CN\n"
@@ -56,7 +56,7 @@ msgstr "回收评论"
 msgid "Mark a Comment as spam"
 msgstr "标记为垃圾评论"
 
-#: options-advanced.php:14 options-general.php:43
+#: options-advanced.php:14 options-general.php:47
 msgid "Save"
 msgstr "保存"
 
@@ -199,6 +199,12 @@ msgstr "时间页"
 msgid "Attachment"
 msgstr "附件页"
 
+#: options-general.php:43
+msgid ""
+"<p>You can specify a page that is not cached, Please fill in the full "
+"URL(like http://www.example.com/example/).</p>"
+msgstr "<p>你可以指定单个不被缓存的页面，请在下方填入完整的URL。</p>"
+
 #: options.php:56
 msgid "Your Webserver is "
 msgstr "您的web服务器是"
@@ -207,50 +213,50 @@ msgstr "您的web服务器是"
 msgid "We Can not generation a Rewrite Rules for you!"
 msgstr "不能自动生成伪静态规则"
 
-#: options.php:75 super-static-cache.php:234
+#: options.php:75 super-static-cache.php:261
 msgid "Cache feature is turned off"
 msgstr "缓存功能没有开启"
 
-#: options.php:77 super-static-cache.php:236
+#: options.php:77 super-static-cache.php:263
 msgid "You Must update Permalink to enable Super Static Cache"
 msgstr "必须设置合适的固定链接来启用Super Static Cache"
 
-#: options.php:79 super-static-cache.php:238
+#: options.php:79 super-static-cache.php:265
 msgid "Rewrite Rules Not Update!"
 msgstr "没有更新伪静态规则"
 
-#: options.php:81 super-static-cache.php:240
+#: options.php:81 super-static-cache.php:267
 msgid "Strict Cache Mode not Support current Permalink!"
 msgstr "严格缓存模式不支持当前固定连接"
 
-#: options.php:83 super-static-cache.php:242
+#: options.php:83 super-static-cache.php:269
 msgid ""
 "Cache is enabled, But Some Pages May return 403 status or a index page cause "
 "your Permalink Settings"
 msgstr ""
 "缓存功能开启，但是由于您的固定链接的设置，可能会出现某些页面返回403的错误"
 
-#: options.php:85 super-static-cache.php:244
+#: options.php:85 super-static-cache.php:271
 msgid "OK"
 msgstr "OK"
 
-#: options.php:109
+#: options.php:110
 msgid "Super Static Cache Settings"
 msgstr "Super Static Cache选项"
 
-#: options.php:111
+#: options.php:112
 msgid "General"
 msgstr "基本设置"
 
-#: options.php:112
+#: options.php:113
 msgid "Advanced"
 msgstr "高级设置"
 
-#: options.php:122
+#: options.php:123
 msgid "About"
 msgstr "关于"
 
-#: options.php:125
+#: options.php:126
 msgid ""
 "<p>Super Static Cache is developing and maintaining by <a href=\"https://www."
 "hitoy.org/\">Hito</a>.<br/>It is a advanced fully static cache plugin, with "
@@ -290,6 +296,13 @@ msgstr "支持"
 #: super-static-cache-admin.php:33
 msgid "Donate"
 msgstr "捐赠"
+
+#~ msgid ""
+#~ "<p>You can specify a page that is not cached, Please fill in the full "
+#~ "URL(like http://www.example.com/expamle/).</p>"
+#~ msgstr ""
+#~ "<p>你可以指定单个不被缓存的页面，请在下方填入完整网址(类似http://www."
+#~ "example.com/example/).</p>"
 
 #~ msgid ""
 #~ "<p>Only for Direct Mode, if your enable this function, url like "

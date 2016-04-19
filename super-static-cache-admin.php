@@ -102,6 +102,10 @@ function do_update_actions(){
 
 				$super_static_cache_strict=($_POST['super_static_cache_strict'] == "true")?true:false;
 				update_option('super_static_cache_strict',$super_static_cache_strict);
+
+                $super_static_cache_nocachesinglepage = $_POST['super_static_cache_nocachesinglepage'];
+                $arr = str_replace("\r\n",",",$super_static_cache_nocachesinglepage);
+				update_option('super_static_cache_nocachesinglepage',$super_static_cache_strict);
 		}
 
 		if(!empty($_POST['update_cache_action'])){

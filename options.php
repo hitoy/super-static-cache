@@ -99,6 +99,7 @@ div label {display:inline-block;margin-left:5px;margin-right:20px}
 div label:first-child {display:inline-block;width:200px}
 .updaterewrite {margin:15px;padding-top:10px;border-top:1px dotted #ccc;display:none}
 .updaterewrite pre {margin:10px;background:rgba(0,128,255,.5)}
+textarea {width:80%;height:100px}
 </style>
 <?php
 $notice=notice_msg();
