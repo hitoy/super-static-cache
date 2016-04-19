@@ -237,7 +237,8 @@ class WPStaticCache{
 				$this->nocachepage = array_merge($this->nocachepage,$usernocachearr);
                 //获取不缓存的单页
                 $nocachesinglepage = trim(get_option('super_static_cache_nocachesinglepage'));
-                $this->nocachesinglepage = empty($nocachesinglepage)?array():explode(',',$nocachesinglepage)
+                $this->nocachesinglepage = empty($nocachesinglepage)?array():explode(',',$nocachesinglepage);
+				$this->nocachesinglepage = array_map('trim',$this->nocachesinglepage);
 		}
 
 
@@ -278,7 +279,7 @@ class WPStaticCache{
                     return false;
 				}
                 //用户设置当前页面不缓存
-                if(in_array($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],$this->nocachesinglepage)){
+                if(in_array($this->siteurl.$this->wpuri,$this->nocachesinglepage)){
                     return false;
                 }
 				//登陆用户不缓存
@@ -454,6 +455,7 @@ class WPStaticCache{
 				delete_option("super_static_cache_mode");
 				delete_option("super_static_cache_excet");
 				delete_option("super_static_cache_strict");
+				delete_option("super_static_cache_nocachesinglepage");
 				delete_option("update_cache_action");
 				//删除一些必要的缓存
 				delete_uri($this->wppath."super-static-cache/rewrite_ok.txt");
