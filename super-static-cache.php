@@ -9,7 +9,7 @@ Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
 Domain Path: /languages/
 License: GPL2
- */
+*/
 /*  Copyright 2016 hitoy  (email : vip@hitoy.org)
 
 	This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ License: GPL2
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
 
 //获取当前页面类型
 function getpagetype(){
