@@ -97,7 +97,7 @@ function do_update_actions(){
 				update_option('super_static_cache_mode',$super_static_cache_mode);
 
 				$super_static_cache_excet_arr=$_POST['super_static_cache_excet'];
-				$super_static_cache_excet = implode($super_static_cache_excet_arr,',');
+				$super_static_cache_excet = implode(',',$super_static_cache_excet_arr);
 				update_option('super_static_cache_excet',$super_static_cache_excet);
 
 				$super_static_cache_strict=($_POST['super_static_cache_strict'] == "true")?true:false;
@@ -110,7 +110,7 @@ function do_update_actions(){
 
 		if(!empty($_POST['update_cache_action'])){
 				$update_cache_action_arr=$_POST['update_cache_action'];
-				$update_cache_action=implode($update_cache_action_arr,',');
+				$update_cache_action=implode(',',$update_cache_action_arr);
 				update_option('update_cache_action',$update_cache_action);
 		}
 
