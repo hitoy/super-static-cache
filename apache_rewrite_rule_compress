@@ -1,0 +1,25 @@
+#BEGIN Super Static Cache
+#Must the First Rewrite Rule
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /wp_install_dir/
+RewriteRule ^super-static-cache/ - [L]
+
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteCond %{QUERY_STRING} !.*=.*
+RewriteCond %{DOCUMENT_ROOT}/wp_install_dir/super-static-cache/$1.gz -f
+RewriteRule ^(.*)$ /wp_install_dir/super-static-cache/$1.gz [L]
+
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteCond %{QUERY_STRING} !.*=.*
+RewriteCond %{DOCUMENT_ROOT}/wp_install_dir/super-static-cache/$1/index.html.gz -f
+RewriteRule ^(.*)$ /wp_install_dir/super-static-cache/$1/index.html.gz [L]
+</IfModule>
+<IfModule mod_headers.c>
+<FilesMatch "\.(html|txt)\.gz$">
+header set Content-Encoding gzip
+header set Content-Type text/html
+</FilesMatch>
+</Ifmodule>
+#End Super Static Cache
+#BEGIN WordPress

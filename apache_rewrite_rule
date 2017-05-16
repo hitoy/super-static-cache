@@ -2,17 +2,17 @@
 #Must the First Rewrite Rule
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /wp_install_dir/
+RewriteBase {wp_install_dir}
 RewriteRule ^super-static-cache/ - [L]
 
 RewriteCond %{REQUEST_METHOD} !POST
 RewriteCond %{QUERY_STRING} !.*=.*
-RewriteCond %{DOCUMENT_ROOT}/wp_install_dir/super-static-cache/$1 -f
-RewriteRule ^(.*)$ /wp_install_dir/super-static-cache/$1 [L]
+RewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1{iscompressed} -f
+RewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1{iscompressed} [L]
 
 RewriteCond %{REQUEST_METHOD} !POST
 RewriteCond %{QUERY_STRING} !.*=.*
-RewriteCond %{DOCUMENT_ROOT}/wp_install_dir/super-static-cache/$1/index.html -f
-RewriteRule ^(.*)$ /wp_install_dir/super-static-cache/$1/index.html [L]
+RewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1/index.html{iscompressed} -f
+RewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1/index.html{iscompressed} [L]
 </IfModule>
 #End Super Static Cache

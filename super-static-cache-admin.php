@@ -1,6 +1,6 @@
 <?php
 /*后台管理界面*/
-/*最后更新 2015年10月15日*/
+/*最后更新 2017年5月*/
 
 //展示菜单
 function display_cache_menu(){
@@ -38,6 +38,94 @@ function ssc_row_meta($links,$pluginfile){
 }
 add_filter('plugin_row_meta','ssc_row_meta',10,2);
 
+
+//判断伪静态是否配置好
+function is_rewrite_ok(){
+    global $wpssc;
+    if(@fopen($wpssc->siteurl."/rewrite_ok.txt","r")){
+        return true;
+    }
+    return false;
+}
+//获取web服务器类型
+function getwebserver(){
+    $software=strtolower($_SERVER["SERVER_SOFTWARE"]);
+    switch ($software){
+    case strstr($software,"nginx"):
+        return "nginx";
+        break;
+    case strstr($software,"apache"):
+        return "apache";
+        break;
+    case strstr($software,"iis"):
+        return "iis";
+        break;
+    default:
+        return "unknown";
+    }
+}
+
+//获取WP安装目录
+function getwpinstallpath(){
+    global $wpssc;
+    return "/".substr($wpssc->wppath,strlen($wpssc->docroot));
+}
+
+//自动更新apache htaccess规则
+function insert_htaccess($rule){
+    global $wpssc;
+    $raw_rules = file_get_contents($wpssc->wppath.".htaccess");
+    $rules = $rule."\n".$raw_rules;
+    if(!file_put_contents($wpssc->wppath.".htaccess",$rules,LOCK_EX)) return false;
+    return true;
+}
+
+//设置伪静态规则
+function getrewriterule($escape=true){
+    if(is_rewrite_ok()) return false;
+    $cachemod=get_option("super_static_cache_mode");
+    $compress=get_option("super_static_cache_compress");
+    $webscr=getwebserver();
+
+    $rules=false;
+
+    $httpdcompressflushreule="\n<IfModule mod_headers.c>\n<FilesMatch \"\.(html|txt)\.gz$\">\nheader set Content-Encoding gzip\nheader set Content-Type text/html\n</FilesMatch>\n</Ifmodule>\n#End Super Static Cache\n";
+    $httpdrewriterule="#BEGIN Super Static Cache\n#Must the First Rewrite Rule\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase {wp_install_dir}\nRewriteRule ^super-static-cache/ - [L]\n\nRewriteCond %{REQUEST_METHOD} !POST\nRewriteCond %{QUERY_STRING} !.*=.*\nRewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1{iscompressed} -f\nRewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1{iscompressed} [L]\n\nRewriteCond %{REQUEST_METHOD} !POST\nRewriteCond %{QUERY_STRING} !.*=.*\nRewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1/index.html{iscompressed} -f\nRewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1/index.html{iscompressed} [L]\n</IfModule>\n";
+
+    //Apache规则
+   if($cachemod == 'serverrewrite' && $webscr == 'apache' && $compress == true){
+        $httpdrewriterule=str_replace('{wp_install_dir}',getwpinstallpath(),$httpdrewriterule);
+        $httpdrewriterule=str_replace('{iscompressed}','.gz',$httpdrewriterule);
+        if($escape){
+            $rules=htmlentities($httpdrewriterule.$httpdcompressflushreule);
+        }else{
+            $rules=$httpdrewriterule.$httpdcompressflushreule;
+        }
+    }else if($cachemod == 'serverrewrite' && $webscr == 'apache' && $compress == false){
+        $httpdrewriterule=str_replace('{wp_install_dir}',getwpinstallpath(),$httpdrewriterule);
+        $httpdrewriterule=str_replace('{iscompressed}','',$httpdrewriterule);
+        if($escape){
+            $rules=htmlentities($httpdrewriterule.$httpdcompressflushreule);
+        }else{
+            $rules=$httpdrewriterule.$httpdcompressflushreule;
+        }
+    }
+    //Nginx规则
+
+
+    /*
+    if ($cachemod == 'serverrewrite' && !$is_rewrite_ok && $webscr == 'apache'){
+        $rwt=file_get_contents(dirname(__FILE__)."/apache_rewrite_rule");
+        return str_replace('/wp_install_dir/',getwpinstallpath(),$rwt);
+    }else if($cachemod == 'serverrewrite' && !$is_rewrite_ok && $webscr == 'nginx'){
+        $rwt=file_get_contents(dirname(__FILE__)."/nginx_rewrite_rule");
+        return str_replace('/wp_install_dir/',getwpinstallpath(),$rwt);
+    }else if($cachemod == 'serverrewrite' && !$is_rewrite_ok){
+        return (__('Your Webserver is ').$webscr.__('We Can not generation a Rewrite Rules for you!'));
+    }
+     */
+    return $rules;
+}
 
 //清除文章/单页缓存函数
 //参数为id或者标题
@@ -106,7 +194,16 @@ function do_update_actions(){
                 $super_static_cache_nocachesinglepage = $_POST['super_static_cache_nocachesinglepage'];
                 $super_static_cache_nocachesinglepage = str_replace("\r\n",",",$super_static_cache_nocachesinglepage);
 				update_option('super_static_cache_nocachesinglepage',$super_static_cache_nocachesinglepage);
+                //Apache 自动更新规则
+                if(getwebserver()=='apache' && !is_rewrite_ok()){
+                    insert_htaccess(getrewriterule(false));
+                }
 		}
+
+        if(!empty($_POST['super_static_cache_compress'])){
+            $super_static_cache_compress = ($_POST['super_static_cache_compress'] == "true")?true:false;
+            update_option('super_static_cache_compress',$super_static_cache_compress);
+        }
 
 		if(!empty($_POST['update_cache_action'])){
 				$update_cache_action_arr=$_POST['update_cache_action'];

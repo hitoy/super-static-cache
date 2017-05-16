@@ -10,15 +10,24 @@
                 <input type="radio" name="super_static_cache_mode" value="direct" <?php  theselected('super_static_cache_mode','direct');?>><label><?php _e('Direct Mode','super_static_cache');?></label>
                 <input type="radio" name="super_static_cache_mode" value="phprewrite" <?php theselected('super_static_cache_mode','phprewrite');?>><label><?php _e('PHP Mode','super_static_cache');?></label>
                 <input type="radio" name="super_static_cache_mode" value="serverrewrite" <?php theselected('super_static_cache_mode','serverrewrite');?>><label><?php _e('Rewrite Mode (Recommend)','super_static_cache');?></label>
-
-                <div class="updaterewrite" <?php if(get_option('super_static_cache_mode')=='serverrewrite' && !is_rewrite_ok()){echo 'style="display:block"';}?>>
-                    <span><?php _e('Please Add This Rewrite Rules to your webserver:','super_static_cache');?></span>
-                    <pre><?php echo showrewriterule();?></pre>
-                </div>
-
+               
             </div>
         </div>
         <div class="postbox">
+            <h3 class="hndle"><?php _e('Compress','super_static_cache');?></h3>
+            <div class="inside">
+                <?php _e('<p>Compress Pages to save hard disk space and access time.<br><br><em>Compression is disabled by default because some hosts have problems with compressed files.</em></p>','super_static_cache')?>
+                <input type="radio" name="super_static_cache_compress" value="true" <?php theselected('super_static_cache_compress',true);?> <?php if(!function_exists('gzencode')) echo "disabled";?>><label><?php _e('on','super_static_cache');?></label>
+                <input type="radio" name="super_static_cache_compress" value="false" <?php theselected('super_static_cache_compress',false);?>><label><?php _e('off','super_static_cache');?></label>
+            </div>
+        </div>
+    
+        <div class="postbox updaterewrite" <?php if(get_option('super_static_cache_mode')=='serverrewrite' && !is_rewrite_ok()){echo 'style="display:block"';}?>>
+                    <h3 class="hndle"><?php _e('Please Add This Rewrite Rules to your webserver:','super_static_cache');?></h3>
+                    <div class="inside"><pre><?php echo getrewriterule();?></pre></div>
+        </div>
+
+        <div class="postbox setcachestrict" <?php if(get_option('super_static_cahe_mode')=='direct') echo 'style="display:block"';?>>
             <h3 class="hndle"><?php _e('Enable Strict Cache Mode','super_static_cache');?></h3>
             <div class="inside">
                 <?php _e('<p>Only for Direct Mode, if your close this function, url like <em>http://www.example.com/123</em> will be cached, it may be cause some error.</p><p>If you don\'t know how to configure it, just keep it as it is.</p>','super_static_cache')?>
@@ -26,6 +35,7 @@
                 <input type="radio" name="super_static_cache_strict" value="false" <?php theselected('super_static_cache_strict',false);?>><label><?php _e('off','super_static_cache');?></label>
             </div>
         </div>
+
         <div class="postbox">
             <h3 class="hndle"><?php _e('No Cache Page','super_static_cache');?></h3>
             <div class="inside">
