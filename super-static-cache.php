@@ -417,6 +417,9 @@ class WPStaticCache{
         }else if($this->cachemod == 'direct'){
             $uri=str_replace("//","/",$this->wppath.$uri);
         }
+        
+       if($this->iscompress) $uri .=".gz"; 
+
         delete_uri($uri);
         if(file_exists($uri)){
             return false;
@@ -462,7 +465,7 @@ class WPStaticCache{
             mkdir($this->wppath.'super-static-cache',0777);
         }
         file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt","This is a test file from rewrite rules,please do not to remove it.\n");
-        file_put_contents($this->wppath."super-static-cache/rewrite_ok.txt.gz",gzencode("This is a test file from rewrite rules,please do not to remove it.\n"));
+        file_put_contents($this->wppath."super-static-cache/rewrite_ok.html.gz",gzencode("This is a test file from rewrite rules,please do not to remove it.\n"));
         chmods($this->wppath.'super-static-cache',0777,0444,true);
     }
     //卸载函数
@@ -475,7 +478,7 @@ class WPStaticCache{
         delete_option("update_cache_action");
         //删除一些必要的缓存
         delete_uri($this->wppath."super-static-cache/rewrite_ok.txt");
-        delete_uri($this->wppath."super-static-cache/rewrite_ok.txt.gz");
+        delete_uri($this->wppath."super-static-cache/rewrite_ok.html.gz");
         delete_uri($this->wppath.'super-static-cache');
         if($this->cachemod=="direct" && is_file($this->wppath."index.html")){
             delete_uri($this->wppath."index.html");

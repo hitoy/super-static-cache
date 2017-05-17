@@ -13,7 +13,7 @@
                
             </div>
         </div>
-        <div class="postbox">
+        <div class="postbox setcompress" <?php if(get_option('super_static_cache_mode')=='phprewrite' || get_option('super_static_cache_mode') == 'serverrewrite'){;echo 'style="display:block"';}?>>
             <h3 class="hndle"><?php _e('Compress','super_static_cache');?></h3>
             <div class="inside">
                 <?php _e('<p>Compress Pages to save hard disk space and access time.<br><br><em>Compression is disabled by default because some hosts have problems with compressed files.</em></p>','super_static_cache')?>
@@ -22,12 +22,12 @@
             </div>
         </div>
     
-        <div class="postbox updaterewrite" <?php if(get_option('super_static_cache_mode')=='serverrewrite' && !is_rewrite_ok()){echo 'style="display:block"';}?>>
+        <div class="postbox updaterewrite" <?php if(get_option('super_static_cache_mode') == 'serverrewrite' && !is_rewrite_ok()){echo 'style="display:block"';}?>>
                     <h3 class="hndle"><?php _e('Please Add This Rewrite Rules to your webserver:','super_static_cache');?></h3>
                     <div class="inside"><pre><?php echo getrewriterule();?></pre></div>
         </div>
 
-        <div class="postbox setcachestrict" <?php if(get_option('super_static_cahe_mode')=='direct') echo 'style="display:block"';?>>
+        <div class="postbox setcachestrict" <?php if(get_option('super_static_cache_mode')=='direct'){echo 'style="display:block"';}?>>
             <h3 class="hndle"><?php _e('Enable Strict Cache Mode','super_static_cache');?></h3>
             <div class="inside">
                 <?php _e('<p>Only for Direct Mode, if your close this function, url like <em>http://www.example.com/123</em> will be cached, it may be cause some error.</p><p>If you don\'t know how to configure it, just keep it as it is.</p>','super_static_cache')?>

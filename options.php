@@ -50,11 +50,29 @@ function notice_msg(){
 h3 {margin-left:12px;}
 div label {display:inline-block;margin-left:5px;margin-right:20px}
 div label:first-child {display:inline-block;width:200px}
-.updaterewrite {margin:15px;padding-top:10px;border-top:1px dotted #ccc;display:none}
+.updaterewrite {display:none}
 .updaterewrite pre {padding:10px;border:1px solid #333;background:#eee;overflow:auto}
 .setcachestrict {display:none}
+.setcompress {display:none}
 textarea {width:80%;height:100px}
 </style>
+<script>
+jQuery(function(){
+    jQuery("[name='super_static_cache_mode']").bind("click",function(){
+            var index = jQuery(this).index("[name='super_static_cache_mode']");
+            if(index === 0){
+                jQuery(".setcachestrict").css("display","none");
+                jQuery(".setcompress").css("display","none");
+            }else if(index === 1){
+                jQuery(".setcachestrict").css("display","block");
+                jQuery(".setcompress").css("display","none");
+            }else if(index === 2 || index == 3){
+                jQuery(".setcachestrict").css("display","none");
+                jQuery(".setcompress").css("display","block");
+            }
+    })
+});
+</script>
 <?php
 $notice=notice_msg();
 if($notice[0] === false){

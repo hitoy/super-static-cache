@@ -1,6 +1,7 @@
 #BEGIN Super Static Cache
 location {wp_install_dir} {
-    {wp_gzip_static_flush}
+    gzip_static always;
+    gunzip on;
     if (-f $request_filename) {
         break;
     }
