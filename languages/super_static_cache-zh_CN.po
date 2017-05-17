@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: super static cache 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 10:17+0800\n"
-"PO-Revision-Date: 2016-04-19 10:17+0800\n"
+"POT-Creation-Date: 2017-05-17 15:34+0800\n"
+"PO-Revision-Date: 2017-05-17 15:38+0800\n"
 "Last-Translator: hitoy <vip@hitoy.org>\n"
 "Language-Team: hitoy <vip@hitoy.org>\n"
 "Language: zh_CN\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: 0,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.2\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: options-advanced.php:3
@@ -56,7 +56,7 @@ msgstr "回收评论"
 msgid "Mark a Comment as spam"
 msgstr "标记为垃圾评论"
 
-#: options-advanced.php:14 options-general.php:47
+#: options-advanced.php:14 options-general.php:57
 msgid "Save"
 msgstr "保存"
 
@@ -70,23 +70,23 @@ msgid ""
 "purge files selectively or all at once.</p>"
 msgstr "<p>清理在服务器上的缓存，你可以根据需要，对单个或多个缓存进行管理</p>"
 
-#: options-advanced.php:24 options-general.php:33
+#: options-advanced.php:24 options-general.php:43
 msgid "Home"
 msgstr "首页"
 
-#: options-advanced.php:25 options-general.php:34
+#: options-advanced.php:25 options-general.php:44
 msgid "Single"
 msgstr "文章页"
 
-#: options-advanced.php:26 options-general.php:35
+#: options-advanced.php:26 options-general.php:45
 msgid "Page"
 msgstr "单页"
 
-#: options-advanced.php:27 options-general.php:36
+#: options-advanced.php:27 options-general.php:46
 msgid "Category"
 msgstr "分类页"
 
-#: options-advanced.php:28 options-general.php:37
+#: options-advanced.php:28 options-general.php:47
 msgid "Tag"
 msgstr "Tag页"
 
@@ -153,15 +153,36 @@ msgstr "PHP模式"
 msgid "Rewrite Mode (Recommend)"
 msgstr "Rewrite模式 (推荐)"
 
-#: options-general.php:15
+#: options-general.php:17
+msgid "Compress"
+msgstr "压缩"
+
+#: options-general.php:19
+msgid ""
+"<p>Compress Pages to save hard disk space and access time."
+"<br><br><em>Compression is disabled by default because some hosts have "
+"problems with compressed files.</em></p>"
+msgstr ""
+"<p>压缩页面以节省硬盘空间和访问时间.<br><br><em>部分服务器对压缩功能支持有"
+"限，如开启此项设置，请确保工作正常。</em></p>"
+
+#: options-general.php:20 options-general.php:34
+msgid "on"
+msgstr "开启"
+
+#: options-general.php:21 options-general.php:35
+msgid "off"
+msgstr "关闭"
+
+#: options-general.php:26
 msgid "Please Add This Rewrite Rules to your webserver:"
 msgstr "请把下列伪静态规则添加到你的服务器:"
 
-#: options-general.php:22
+#: options-general.php:31
 msgid "Enable Strict Cache Mode"
 msgstr "严格缓存模式"
 
-#: options-general.php:24
+#: options-general.php:33
 msgid ""
 "<p>Only for Direct Mode, if your close this function, url like <em>http://"
 "www.example.com/123</em> will be cached, it may be cause some error.</"
@@ -171,92 +192,76 @@ msgstr ""
 "url将会被缓存，但可能会导致一些错误。</p><p>如果你不知道如何配置，保持原样就"
 "行。</p>"
 
-#: options-general.php:25
-msgid "on"
-msgstr "开启"
-
-#: options-general.php:26
-msgid "off"
-msgstr "关闭"
-
-#: options-general.php:30
+#: options-general.php:40
 msgid "No Cache Page"
 msgstr "不缓存页面"
 
-#: options-general.php:32
+#: options-general.php:42
 msgid "<p>The following page which is selected will not be cached</p>"
 msgstr "下列被选中的页面类型将不会被缓存"
 
-#: options-general.php:38
+#: options-general.php:48
 msgid "Author"
 msgstr "作者页"
 
-#: options-general.php:39
+#: options-general.php:49
 msgid "Date"
 msgstr "时间页"
 
-#: options-general.php:40
+#: options-general.php:50
 msgid "Attachment"
 msgstr "附件页"
 
-#: options-general.php:43
+#: options-general.php:53
 msgid ""
 "<p>You can specify a page that is not cached, Please fill in the full "
 "URL(like http://www.example.com/example/).</p>"
 msgstr "<p>你可以指定单个不被缓存的页面，请在下方填入完整的URL。</p>"
 
-#: options.php:56
-msgid "Your Webserver is "
-msgstr "您的web服务器是"
-
-#: options.php:56
-msgid "We Can not generation a Rewrite Rules for you!"
-msgstr "不能自动生成伪静态规则"
-
-#: options.php:75 super-static-cache.php:261
+#: options.php:29 super-static-cache.php:263
 msgid "Cache feature is turned off"
 msgstr "缓存功能没有开启"
 
-#: options.php:77 super-static-cache.php:263
+#: options.php:31 super-static-cache.php:265
 msgid "You Must update Permalink to enable Super Static Cache"
 msgstr "必须设置合适的固定链接来启用Super Static Cache"
 
-#: options.php:79 super-static-cache.php:265
+#: options.php:33 super-static-cache.php:267
 msgid "Rewrite Rules Not Update!"
 msgstr "没有更新伪静态规则"
 
-#: options.php:81 super-static-cache.php:267
+#: options.php:35 super-static-cache.php:269
 msgid "Strict Cache Mode not Support current Permalink!"
 msgstr "严格缓存模式不支持当前固定连接"
 
-#: options.php:83 super-static-cache.php:269
+#: options.php:37 super-static-cache.php:271
 msgid ""
 "Cache is enabled, But Some Pages May return 403 status or a index page cause "
 "your Permalink Settings"
 msgstr ""
 "缓存功能开启，但是由于您的固定链接的设置，可能会出现某些页面返回403的错误"
 
-#: options.php:85 super-static-cache.php:271
+#: options.php:39 super-static-cache.php:273
 msgid "OK"
 msgstr "OK"
 
-#: options.php:110
+#: options.php:82
 msgid "Super Static Cache Settings"
 msgstr "Super Static Cache选项"
 
-#: options.php:112
+#: options.php:84
 msgid "General"
 msgstr "基本设置"
 
-#: options.php:113
+#: options.php:85
 msgid "Advanced"
 msgstr "高级设置"
 
-#: options.php:123
+#: options.php:95
 msgid "About"
 msgstr "关于"
 
-#: options.php:126
+#: options.php:98
 msgid ""
 "<p>Super Static Cache is developing and maintaining by <a href=\"https://www."
 "hitoy.org/\">Hito</a>.<br/>It is a advanced fully static cache plugin, with "
@@ -270,7 +275,7 @@ msgid ""
 "this plugin further improve.</p><form action=\"https://www.paypal.com/cgi-"
 "bin/webscr\" method=\"post\" target=\"_blank\"><input type=\"hidden\" name="
 "\"cmd\" value=\"_s-xclick\"><input type=\"hidden\" name=\"hosted_button_id\" "
-"value=\"3EL4H6L7LY3YS\"><input type=\"image\" src=\"http://www.hitoy.org/wp-"
+"value=\"3EL4H6L7LY3YS\"><input type=\"image\" src=\"https://www.hitoy.org/wp-"
 "content/uploads/donate_paypal.gif\" border=\"0\" name=\"submit\" alt=\"PayPal"
 "\"><img border=\"0\" src=\"https://www.paypal.com/en_GB/i/btn/"
 "btn_donateCC_LG.gif\" width=\"1\" height=\"1\"></form>"
@@ -283,7 +288,7 @@ msgstr ""
 "target=\"_blank\">评分</a>，并告诉我你的需求，这对插件的开发非常有用。</"
 "p><h3>捐款</h3><p>如果此插件对您有帮助，可考虑为它<a href=\"https://www."
 "hitoy.org/super-static-cache-for-wordperss.html#Donations\" target=\"_blank"
-"\">捐款</a>。</p>"
+"\">捐款</a>。</p>            "
 
 #: super-static-cache-admin.php:19 super-static-cache-admin.php:31
 msgid "Settings"
@@ -296,6 +301,63 @@ msgstr "支持"
 #: super-static-cache-admin.php:33
 msgid "Donate"
 msgstr "捐赠"
+
+#: super-static-cache-admin.php:179
+msgid ""
+"Your server type is not detected, Please visit https://www.hitoy.org/super-"
+"static-cache-for-wordperss.html for help."
+msgstr ""
+"没有检测出您的服务器类型，请访问https://www.hitoy.org/super-static-cache-for-"
+"wordperss.html获取帮助。"
+
+#~ msgid ""
+#~ "Your server type is not detected, Please visit https://www.hitoy.org/"
+#~ "super-static-cache-for-wordperss.html for help"
+#~ msgstr ""
+#~ "没有检测出您的服务器类型，请访问https://www.hitoy.org/super-static-cache-"
+#~ "for-wordperss.html获取帮助"
+
+#~ msgid ""
+#~ "We did not detect your server type, Please visit https://www.hitoy.org/"
+#~ "super-static-cache-for-wordperss.html for help"
+#~ msgstr ""
+#~ "没有检测到您的服务器类型，请访问https://www.hitoy.org/super-static-cache-"
+#~ "for-wordperss.html获取帮助"
+
+#~ msgid "Your Webserver is "
+#~ msgstr "您的web服务器是"
+
+#~ msgid "We Can not generation a Rewrite Rules for you!"
+#~ msgstr "不能自动生成伪静态规则"
+
+#~ msgid ""
+#~ "<p>Super Static Cache is developing and maintaining by <a href=\"https://"
+#~ "www.hitoy.org/\">Hito</a>.<br/>It is a advanced fully static cache "
+#~ "plugin, with easy configuration and high efficiency. When a post cached, "
+#~ "It will no longer need the Database. It is a better choice when your "
+#~ "posts more than 5000.</p><p>Have any suggestions, please contact "
+#~ "vip@hitoy.org.</p><h4>Rating for This Plugin</h4><p>Please <a href="
+#~ "\"http://wordpress.org/support/view/plugin-reviews/super-static-cache\" "
+#~ "target=\"_blank\">Rating for this plugin</a> and tell me your needs. This "
+#~ "is very useful for my development.</p><h4>Donation</h4><p>You can Donate "
+#~ "to this plugin to let this plugin further improve.</p><form action="
+#~ "\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\" target=\"_blank"
+#~ "\"><input type=\"hidden\" name=\"cmd\" value=\"_s-xclick\"><input type="
+#~ "\"hidden\" name=\"hosted_button_id\" value=\"3EL4H6L7LY3YS\"><input type="
+#~ "\"image\" src=\"http://www.hitoy.org/wp-content/uploads/donate_paypal.gif"
+#~ "\" border=\"0\" name=\"submit\" alt=\"PayPal\"><img border=\"0\" src="
+#~ "\"https://www.paypal.com/en_GB/i/btn/btn_donateCC_LG.gif\" width=\"1\" "
+#~ "height=\"1\"></form>"
+#~ msgstr ""
+#~ "<p>Super Static Cache由<a href=\"https://www.hitoy.org/\" target=\"_blank"
+#~ "\">Hito</a>开发维护。它是一个高级的WP缓存插件，配置简单，运行高效，特别适"
+#~ "用于文章内容较多，数据库压力较大的网站。</p><p>有任何插件方面的问题，或者"
+#~ "发现任何bug，请联系vip@hitoy.org。</p><h3>为插件评分</h3><p>您可以为此插件"
+#~ "<a href=\"http://wordpress.org/support/view/plugin-reviews/super-static-"
+#~ "cache\" target=\"_blank\">评分</a>，并告诉我你的需求，这对插件的开发非常有"
+#~ "用。</p><h3>捐款</h3><p>如果此插件对您有帮助，可考虑为它<a href=\"https://"
+#~ "www.hitoy.org/super-static-cache-for-wordperss.html#Donations\" target="
+#~ "\"_blank\">捐款</a>。</p>"
 
 #~ msgid ""
 #~ "<p>You can specify a page that is not cached, Please fill in the full "

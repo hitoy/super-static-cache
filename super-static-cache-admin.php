@@ -176,7 +176,7 @@ location {wp_install_dir} {
             $rules=$nginxrewriterule;
         }
     }else {
-        $rules = __('We did not detect your server type, Please visit https://www.hitoy.org/super-static-cache-for-wordperss.html for help','super-static-cache');
+        $rules = __('Your server type is not detected, Please visit https://www.hitoy.org/super-static-cache-for-wordperss.html for help.','super-static-cache');
     }
     return $rules;
 }
