@@ -98,7 +98,7 @@ function getrewriterule($escape=true){
     $httpdcompressflushreule="\n<IfModule mod_headers.c>\n<FilesMatch \"\.(html|txt)\.gz$\">\nheader set Content-Encoding gzip\nheader set Content-Type text/html\n</FilesMatch>\n</Ifmodule>\n#End Super Static Cache\n";
     $httpdrewriterule="#BEGIN Super Static Cache\n#Must the First Rewrite Rule\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase {wp_install_dir}\nRewriteRule ^super-static-cache/ - [L]\n\nRewriteCond %{REQUEST_METHOD} !POST\nRewriteCond %{QUERY_STRING} !.*=.*\nRewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1{iscompressed} -f\nRewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1{iscompressed} [L]\n\nRewriteCond %{REQUEST_METHOD} !POST\nRewriteCond %{QUERY_STRING} !.*=.*\nRewriteCond %{DOCUMENT_ROOT}{wp_install_dir}super-static-cache/$1/index.html{iscompressed} -f\nRewriteRule ^(.*)$ {wp_install_dir}super-static-cache/$1/index.html{iscompressed} [L]\n</IfModule>\n";
 
-    $nginxcompressstatic = "#ngx_http_gzip_static_module and ngx_http_gunzip_module Must Be Added To Nginx\ngzip_static always;\n    gunzip on;\n";
+    $nginxcompressstatic = "#ngx_http_gzip_static_module and ngx_http_gunzip_module Must Be Added To Nginx\n    gzip_static always;\n    gunzip on;\n";
     $nginxrewriterule='#BEGIN Super Static Cache
 location {wp_install_dir} {
     {wp_gzip_static_flush}
