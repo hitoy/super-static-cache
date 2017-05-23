@@ -84,7 +84,7 @@ function delete_uri($uri){
 
     $fh = opendir($uri);
     while(($row = readdir($fh)) !== false){
-        $nodelete_uri=array(".","..","rewrite_ok.txt","rewrite_ok.txt.gz","wp-admin","wp-content","wp-includes",".htaccess","index.php","license.txt","readme.html","wp-activate.php","wp-blog-header.php","wp-comments-post.php","wp-config-sample.php","wp-config.php","wp-cron.php","wp-links-opml.php","wp-load.php","wp-login.php","wp-mail.php","wp-settings.php","wp-signup.php","wp-trackback.php","xmlrpc.php");
+        $nodelete_uri=array(".","..","rewrite_ok.txt","rewrite_ok.html.gz","wp-admin","wp-content","wp-includes",".htaccess","index.php","license.txt","readme.html","wp-activate.php","wp-blog-header.php","wp-comments-post.php","wp-config-sample.php","wp-config.php","wp-cron.php","wp-links-opml.php","wp-load.php","wp-login.php","wp-mail.php","wp-settings.php","wp-signup.php","wp-trackback.php","xmlrpc.php");
         if(in_array($row,$nodelete_uri)) continue;
         if(!is_dir($uri.'/'.$row)){
             unlink($uri.'/'.$row);
