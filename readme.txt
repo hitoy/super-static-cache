@@ -4,7 +4,7 @@ Donate link: http://www.hitoy.org/super-static-cache-for-wordperss.html#Donation
 Tags: Wordpress Static Cache, WP Cache Plugin, Website caching plugin
 Requires at least: 3.0.1
 Tested up to: 4.8
-Stable tag: 3.3.4
+Stable tag: 3.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,10 @@ After you install this plugin,  do not forget to enable the cache function in  t
 1. Admin Panel
 
 == Upgrade Notice ==
+= 3.3.4 =
+* cache build action bug fixed
+* purge cache bug fixed
+
 = 3.3.4 =
 * Support Cache File Compress, save 50% disk space at least
 * fix some bugs

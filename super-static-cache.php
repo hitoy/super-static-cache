@@ -3,7 +3,7 @@
 Plugin Name: Super Static Cache
 Plugin URI: https://www.hitoy.org/super-static-cache-for-wordperss.html
 Description: Super Static Cache is an efficient WordPress caching engine which provides three cache mode. It can reduce the pressure of the database significantly that makes your website faster than ever.
-Version: 3.3.4
+Version: 3.3.5
 Author: Hito
 Author URI: https://www.hitoy.org/
 Text Domain: super_static_cache
@@ -74,7 +74,13 @@ function delete_uri($uri){
     //不能清除网站目录之外的文件和网站目录本身
     $abspath=str_replace("//","/",str_replace("\\","/",realpath(ABSPATH))."/");
     if(substr($uri,0,strlen($abspath)) != $abspath) return false;
-    if($uri == $abspath) $uri=$uri."/index.html";
+
+    /////Direct:首页缓存处理
+    if($uri == $abspath){
+        unlink($uri."/index.html");
+        unlink($uri."/index.html.gz");
+        return;
+    }
 
     //文件目录不存在
     if(!file_exists($uri)) return false;
@@ -132,7 +138,7 @@ function chmods($path,$dirmod=0777,$filemod=0666,$rec=true){
 
 //访问远程url的函数
 //用来自动建立缓存
-function curl($url){
+function ssc_curl($url){
     if(function_exists("curl_init")){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -417,9 +423,8 @@ class WPStaticCache{
         }else if($this->cachemod == 'direct'){
             $uri=str_replace("//","/",$this->wppath.$uri);
         }
-        
-       if($this->iscompress) $uri .=".gz"; 
-
+       //如果系统开启压缩功能，并且URI不是目录，则URI为压缩缓存文件
+       if($this->iscompress && !is_dir($uri)) $uri .=".gz"; 
         delete_uri($uri);
         if(file_exists($uri)){
             return false;
@@ -441,13 +446,13 @@ class WPStaticCache{
         //更新文章页
         $url=get_permalink($id);
         $this->delete_cache($url);
-        curl($url);
+        ssc_curl($url);
 
         //更新和文章页有关联的其它页面
         $list=get_related_page($id);
         foreach($list as $u){
             $this->delete_cache($u);
-            curl($u);
+            ssc_curl($u);
         }
     }
 

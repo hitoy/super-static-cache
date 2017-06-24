@@ -11,11 +11,10 @@
                 <div><label><?php _e('Approve a Comment','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_post,comment_unapproved_to_approved" <?php theselected('update_cache_action','comment_unapproved_to_approved');?>></div>
                 <div><label><?php _e('Trash a Comment','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_approved_to_trash" <?php theselected('update_cache_action','comment_approved_to_trash');?>></div>
                 <div><label><?php _e('Mark a Comment as spam','super_static_cache');?></label><input type="checkbox" name="update_cache_action[]" value="comment_approved_to_spam" <?php theselected('update_cache_action','comment_approved_to_spam');?>></div><br/>
-                <input type="submit" class="button-primary" value="<?php _e('Save','super_static_cache')?>">
+                <input type="submit" name="update_cache_action_submit" class="button-primary" value="<?php _e('Save','super_static_cache')?>">
             </div>
         </form>
     </div>
-
     <div class="postbox">
         <h3 class="hndle"><?php _e('Purge Cache','super_static_cache');?></h3>
         <div class="inside">
